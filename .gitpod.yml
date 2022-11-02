@@ -1,0 +1,19 @@
+tasks:
+  - init: yarn install && npm i -g firebase-tools && npm install -g @angular/cli@13.3.7
+    command: yarn start
+
+
+vscode:
+  extensions:
+    - esbenp.prettier-vscode
+    - nicoespeon.abracadabra
+    - Mikael.Angular-BeastCode
+    - Angular.ng-template
+    - cyrilletuzi.angular-schematics
+    - formulahendry.auto-close-tag
+    - formulahendry.auto-rename-tag
+    - wix.vscode-import-cost
+    - PKief.material-icon-theme
+    - christian-kohler.path-intellisense
+    - TabNine.tabnine-vscode
+    - bradlc.vscode-tailwindcss
