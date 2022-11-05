@@ -11,6 +11,7 @@ import { provideAnalytics,getAnalytics,ScreenTrackingService,UserTrackingService
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideFunctions,getFunctions } from '@angular/fire/functions';
+import { ImgixAngularModule } from '@imgix/angular';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,12 @@ import { provideFunctions,getFunctions } from '@angular/fire/functions';
     BrowserModule,
     AppRoutingModule,
     HomeModule,
+    ImgixAngularModule.forRoot({
+      domain: 'lungabros.imgix.net',
+      defaultImgixParams: {
+        auto: 'format,compress',
+      },
+    }),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
@@ -29,7 +36,7 @@ import { provideFunctions,getFunctions } from '@angular/fire/functions';
   ],
   providers: [
     ScreenTrackingService,
-    UserTrackingService
+    UserTrackingService,
   ],
   bootstrap: [AppComponent]
 })

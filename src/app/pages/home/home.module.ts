@@ -7,6 +7,7 @@ import { SectionOneComponent } from './components/section-one/section-one.compon
 import { ImageSlideshowComponent } from './components/image-slideshow/image-slideshow.component';
 import { SectionTwoComponent } from './components/section-two/section-two.component';
 import { SectionThreeComponent } from './components/section-three/section-three.component';
+import { ImgixAngularModule } from '@imgix/angular';
 
 
 
@@ -17,11 +18,14 @@ import { SectionThreeComponent } from './components/section-three/section-three.
     SectionOneComponent,
     ImageSlideshowComponent,
     SectionTwoComponent,
-    SectionThreeComponent
+    SectionThreeComponent,
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    ImgixAngularModule
+  ],
+  providers: [
   ]
 })
 export class HomeModule { }
