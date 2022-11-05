@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-section-three',
-  templateUrl: './section-three.component.html',
+  selector: 'app-brands',
+  templateUrl: './brands.component.html',
   styles: [
     `
       :host {
@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SectionThreeComponent implements OnInit {
+export class BrandsComponent implements OnInit {
 
   constructor() { }
 

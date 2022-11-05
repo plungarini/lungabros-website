@@ -7,8 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "git add . && git commit -a -m 'deploy' && git push",
-    "fToken": "4/0AfgeXvtMvJ3YpqTNiSOHqMJzPPfzrlCA87zYg0-1VJFsT482Ov_IUDAW5CllR5rophziuA"
+    "deploy": "git add . && git commit -a -m 'deploy' && git push && ng deploy",
+    "fToken": "1//03JjD-OaYV_ZFCgYIARAAGAMSNwF-L9IrXrE_uvfgfWffDg3GOaSGFZZbKiEROrAGv5m8LxdHeAYDkV1uso3v72jb2b3a9IzdX-0"
   },
   "private": true,
   "dependencies": {

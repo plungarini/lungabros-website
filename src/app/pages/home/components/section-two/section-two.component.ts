@@ -14,9 +14,15 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class SectionTwoComponent implements OnInit {
 
+  showSpec = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  toggleSpecialties(): void {
+    this.showSpec = true;
   }
 
 }

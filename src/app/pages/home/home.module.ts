@@ -6,8 +6,9 @@ import { HomeRoutingModule } from './home-routing.module';
 import { SectionOneComponent } from './components/section-one/section-one.component';
 import { ImageSlideshowComponent } from './components/image-slideshow/image-slideshow.component';
 import { SectionTwoComponent } from './components/section-two/section-two.component';
-import { SectionThreeComponent } from './components/section-three/section-three.component';
 import { ImgixAngularModule } from '@imgix/angular';
+import { BrandsComponent } from './components/brands/brands.component';
+import { SectionThreeComponent } from './components/section-three/section-three.component';
 
 
 
@@ -17,6 +18,7 @@ import { ImgixAngularModule } from '@imgix/angular';
     HeaderComponent,
     SectionOneComponent,
     ImageSlideshowComponent,
+    BrandsComponent,
     SectionTwoComponent,
     SectionThreeComponent,
   ],
