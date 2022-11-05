@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "lungabros": {
+      "hosting": {
+        "lungabros": [
+          "lungabros"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "lungabros"
+  }
+}
