@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -8,9 +8,15 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  loaded = false;
+
+  constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.loaded = true;
+      this.cdRef.detectChanges();
+    }, 100);
   }
 
 }
