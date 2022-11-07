@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -13,9 +13,21 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent implements OnInit {
-  constructor() { }
+  menuOpen = false;
+  menuAnimationOpen = false;
+
+  constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+  }
+
+  toggleMenu(state?: boolean): void {
+    this.menuOpen = state !== undefined ? state : !this.menuOpen;
+    this.cdRef.detectChanges();
+    console.log('Menu toggled')
+    setTimeout(() => {
+      this.menuAnimationOpen = state !== undefined ? state : !this.menuOpen;
+    }, 300);
   }
 
 }
