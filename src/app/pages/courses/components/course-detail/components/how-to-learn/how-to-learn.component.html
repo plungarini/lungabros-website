@@ -1,0 +1,37 @@
+<div *ngIf="course" class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-32 mb-16">
+  <div class="relative">
+    <img ixImg loading="lazy" path="courses/learn/elearning.webp" alt="" class="max-w-full aspect-video object-cover object-center rounded-t-xl z-0">
+    <div class="absolute top-0 left-0 bg-gradient-to-t from-zinc-900 to-zinc-900/40 w-full aspect-video z-10"></div>
+    <div class="relative px-6 pb-4 z-20 -mt-12">
+      <h3 class="text-4xl">PADI® eLearning</h3>
+      <p>{{ course.howToLearn.eLearning }}</p>
+      <ul>
+        <li>
+          <p>- <b>Impegno di tempo per l'eLearning:</b> ~{{ course.specs.specs.elearningTime }} ore</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="relative">
+    <img ixImg loading="lazy" path="courses/learn/learn.jpeg" alt="" class="max-w-full aspect-video object-cover object-center rounded-t-xl z-0">
+    <div class="absolute top-0 left-0 bg-gradient-to-t from-zinc-900 to-zinc-900/40 w-full aspect-video z-10"></div>
+    <div class="relative px-6 pb-4 z-20 -mt-12">
+      <h3 class="text-4xl">Assieme a noi</h3>
+      <p>{{ course.howToLearn.inPerson }}</p>
+      <ul>
+        <li>
+          <p>- <b>Prerequisiti:</b> {{ course.specs.specs.pre }}</p>
+        </li>
+        <li>
+          <p>- <b>Tempo totale del corso:</b> ~{{ course.specs.specs.time }} giorni</p>
+        </li>
+        <li>
+          <p>- <b>Età minima:</b> {{ course.specs.specs.age }} anni</p>
+        </li>
+        <li>
+          <p>- <b>Profondità massima:</b> {{ course.specs.specs.depth }} metri</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -16,6 +16,14 @@ export class NavbarComponent implements OnInit {
   menuOpen = false;
   menuAnimationOpen = false;
 
+  navigation = [
+    { name: 'Home', url: '' },
+    { name: 'Corsi', url: 'courses' },
+    { name: 'Blog', url: 'blog' },
+    { name: 'About Us', url: 'about-us' },
+    { name: 'Contatti', url: 'contact-us' },
+  ];
+
   constructor(private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
@@ -24,7 +32,6 @@ export class NavbarComponent implements OnInit {
   toggleMenu(state?: boolean): void {
     this.menuOpen = state !== undefined ? state : !this.menuOpen;
     this.cdRef.detectChanges();
-    console.log('Menu toggled')
     setTimeout(() => {
       this.menuAnimationOpen = state !== undefined ? state : !this.menuOpen;
     }, 300);

@@ -13,6 +13,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideFunctions,getFunctions } from '@angular/fire/functions';
 import { ImgixAngularModule } from '@imgix/angular';
 import { FooterComponent } from './components/footer/footer.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FooterComponent } from './components/footer/footer.component';
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideFunctions(() => getFunctions())
+    provideFunctions(() => getFunctions()),
+    SharedModule
   ],
   providers: [
     ScreenTrackingService,

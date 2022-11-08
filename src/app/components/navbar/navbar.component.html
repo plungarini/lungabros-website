@@ -43,11 +43,15 @@
           </div>
           <nav class="mt-6">
             <ul class="-my-2 divide-y text-base divide-zinc-100/5 text-zinc-300">
-              <li><a class="block py-2">About</a></li>
-              <li><a class="block py-2">Articles</a></li>
-              <li><a class="block py-2">Projects</a></li>
-              <li><a class="block py-2">Speaking</a></li>
-              <li><a class="block py-2">Uses</a></li>
+              <li *ngFor="let item of navigation">
+                <a
+                  [routerLink]="item.url"
+                  [routerLinkActive]="'text-indigo-500'"
+                  [routerLinkActiveOptions]="{ exact : true }"
+                  (click)="toggleMenu(false)"
+                  class="block py-2"
+                >{{ item.name }}</a>
+              </li>
             </ul>
           </nav>
         </div>
@@ -55,30 +59,13 @@
     </div>
     <nav class="pointer-events-auto hidden md:block">
       <ul class="flex rounded-full bg-white/80 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
-        <li>
-          <a class="relative block px-3 py-2 transition duration-300 hover:text-indigo-500 cursor-pointer">
-            About
-          </a>
-        </li>
-        <li>
-          <a class="relative block px-3 py-2 transition duration-300 hover:text-indigo-500 cursor-pointer">
-            Articles
-          </a>
-        </li>
-        <li>
-          <a class="relative block px-3 py-2 transition duration-300 hover:text-indigo-500 cursor-pointer">
-            Projects
-          </a>
-        </li>
-        <li>
-          <a class="relative block px-3 py-2 transition duration-300 hover:text-indigo-500 cursor-pointer">
-            Speaking
-          </a>
-        </li>
-        <li>
-          <a class="relative block px-3 py-2 transition duration-300 hover:text-indigo-500 cursor-pointer">
-            Uses
-          </a>
+        <li *ngFor="let item of navigation">
+          <a
+            [routerLink]="item.url"
+            [routerLinkActive]="'text-indigo-500'"
+            [routerLinkActiveOptions]="{ exact : true }"
+            class="relative block px-3 py-2 transition duration-300 hover:text-indigo-500 cursor-pointer"
+          >{{ item.name }}</a>
         </li>
       </ul>
     </nav>
