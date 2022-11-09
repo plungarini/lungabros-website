@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { Course } from '../../../../models/course.model';
 
 @Component({
-  selector: 'app-how-to-learn',
-  templateUrl: './how-to-learn.component.html',
+  selector: 'app-course-card',
+  templateUrl: './course-card.component.html',
   styles: [
     `
       :host {
@@ -13,12 +13,17 @@ import { Course } from '../../../../models/course.model';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HowToLearnComponent implements OnInit {
+export class CourseCardComponent implements OnInit {
+
   @Input() course: Course | undefined;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  get isHighlighted(): boolean {
+    return this.course?.category.includes('main') ? true : false;
   }
 
 }

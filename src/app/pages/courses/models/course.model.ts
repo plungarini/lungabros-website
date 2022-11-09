@@ -3,6 +3,8 @@ export interface Course {
   title: string;
   bgImg: string;
   price: number;
+  shortDesc: string;
+  category: string[];
   desc: string;
   howToCert: string;
   howToLearn: {

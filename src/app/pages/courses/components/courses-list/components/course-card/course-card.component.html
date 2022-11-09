@@ -1,0 +1,23 @@
+<div *ngIf="course" class="group w-full h-full">
+  <div
+    [routerLink]="['info', course.id]"
+    [ngClass]="{
+      'border-t-4 border-t-amber-500': isHighlighted
+    }"
+    class="relative w-full h-full rounded-xl overflow-hidden shadow-none group-hover:shadow-2xl border border-zinc-800 transition-all duration-300 cursor-pointer"
+  >
+    <div class="relative overflow-hidden scale-100 group-hover:scale-105 transition-all duration-300">
+      <img ixImg loading="lazy" [path]="course.bgImg" alt="" class="w-full max-w-full aspect-video object-cover object-center z-0">
+      <div class="absolute top-0 left-0 bg-gradient-to-t from-zinc-900 transition-all duration-300 w-full h-full z-10"></div>
+      <div class="absolute top-0 left-0 bg-gradient-to-b from-zinc-900/40 opacity-100 group-hover:opacity-0 transition-all duration-300 w-full h-full z-10"></div>
+    </div>
+    <div
+      [ngClass]="{
+        '-translate-y-1': isHighlighted
+      }"
+      class="relative px-4 pb-4 z-20 -mt-12">
+      <p class="text-lg font-bold text-zinc-300 group-hover:text-zinc-50 transition-all duration-300">{{course.title}}</p>
+      <p class="text-sm" [innerHtml]="course.shortDesc"></p>
+    </div>
+  </div>
+</div>

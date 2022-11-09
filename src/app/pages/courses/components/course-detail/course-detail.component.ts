@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Course } from './models/course.model';
+import { Course } from '../../models/course.model';
+import { HeaderService } from '../../services/header.service';
 
 @Component({
   selector: 'app-course-detail',
@@ -9,22 +10,21 @@ import { Course } from './models/course.model';
   styles: [],
 })
 export class CourseDetailComponent implements OnInit, OnDestroy {
-  title = '';
-  imgPath = '';
-
   course: Course | undefined;
   courseSub: Subscription | undefined;
 
   constructor(
     private route: ActivatedRoute,
+    private headerService: HeaderService,
     private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.courseSub = this.route.data.subscribe(({ course }) => {
       this.course = this.normCourse(course);
+      this.headerService.setHeader(this.course.title, this.course.bgImg);
       this.cdRef.detectChanges();
-    })
+    });
   }
 
   ngOnDestroy(): void {

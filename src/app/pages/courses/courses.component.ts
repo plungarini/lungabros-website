@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Title } from "@angular/platform-browser";
+import { HeaderService } from './services/header.service';
 
 @Component({
   selector: 'app-courses',
@@ -11,32 +13,27 @@ export class CoursesComponent implements OnInit, OnDestroy {
   title = '';
   subtitle = '';
   imgPath = '';
-
-  courseSub: Subscription | undefined;
+  
+  headerSub: Subscription | undefined;
 
   constructor(
     private cdRef: ChangeDetectorRef,
-    private route: ActivatedRoute,
+    private headerService: HeaderService,
+    private titleService: Title,
   ) { }
 
   ngOnInit(): void {
-    this.route.children[0]?.data.subscribe(({ course }) => {
-      if (!course) return;
-      if (course.title) this.title = course.title;
-      if (course.bgImg) this.imgPath = course.bgImg;
+    this.headerSub = this.headerService.header.subscribe((header) => {
+      this.title = header.title;
+      this.imgPath = header.bgImg;
+      this.subtitle = header.subtitle || '';
+      this.titleService.setTitle(`LUNGABROS | ${this.title}`);
       this.cdRef.detectChanges();
-    })
+    });
   }
 
   ngOnDestroy(): void {
-    this.courseSub?.unsubscribe();
-  }
-
-  routeChanges(component: any): void {
-    this.title = component.title || '';
-    this.subtitle = component.subtitle || '';
-    if (component.imgPath) this.imgPath = component.imgPath;
-    this.cdRef.detectChanges();
+    this.headerSub?.unsubscribe();
   }
 
 }
