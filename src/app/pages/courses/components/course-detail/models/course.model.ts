@@ -20,6 +20,8 @@ export interface Course {
     },
     foryou: string[];
     learnto: string[];
-  }
+  };
+  courseAdvice?: string[];
+  suggestedCourse?: string[];
   gallery: string[];
 }

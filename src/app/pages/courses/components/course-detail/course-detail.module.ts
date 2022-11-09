@@ -10,6 +10,8 @@ import { CourseHighlightsComponent } from './components/course-highlights/course
 import { CourseCertificationComponent } from './components/course-certification/course-certification.component';
 import { HowToLearnComponent } from './components/how-to-learn/how-to-learn.component';
 import { CourseAdviceComponent } from './components/course-advice/course-advice.component';
+import { SpecialtiesCardComponent } from './components/specialties-card/specialties-card.component';
+import { CourseSuggestionComponent } from './components/course-suggestion/course-suggestion.component';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import { CourseAdviceComponent } from './components/course-advice/course-advice.
     CourseCertificationComponent,
     HowToLearnComponent,
     CourseAdviceComponent,
+    SpecialtiesCardComponent,
+    CourseSuggestionComponent,
   ],
   imports: [
     CommonModule,

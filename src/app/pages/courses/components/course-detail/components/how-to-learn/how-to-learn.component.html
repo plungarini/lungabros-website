@@ -6,12 +6,18 @@
     </div>
     <div class="relative px-6 pb-4 z-20 -mt-12">
       <h3 class="text-4xl">PADI® eLearning</h3>
-      <p>{{ course.howToLearn.eLearning }}</p>
+      <p [innerHtml]="course.howToLearn.eLearning"></p>
       <ul>
         <li>
           <p>- <b>Tempo di studio:</b> ~{{ course.specs.specs.elearningTime }} ore</p>
         </li>
       </ul>
+      <button class="flex flex-row items-center text-indigo-400 border-b-2 border-zinc-900 hover:border-indigo-400 mt-4 transition-all duration-200">
+        <span class="text-lg">Inizia ora il tuo corso</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>        
+      </button>
     </div>
   </div>
   <div class="relative">
@@ -21,7 +27,7 @@
     </div>
     <div class="relative px-6 pb-4 z-20 -mt-12">
       <h3 class="text-4xl">Assieme a noi</h3>
-      <p>{{ course.howToLearn.inPerson }}</p>
+      <p [innerHtml]="course.howToLearn.inPerson"></p>
       <ul>
         <li>
           <p>- <b>Prerequisiti:</b> {{ course.specs.specs.pre }}</p>
@@ -36,6 +42,12 @@
           <p>- <b>Profondità massima:</b> {{ course.specs.specs.depth }} metri</p>
         </li>
       </ul>
+      <button class="flex flex-row items-center text-indigo-400 border-b-2 border-zinc-900 hover:border-indigo-400 mt-4 transition-all duration-200">
+        <span class="text-lg">Conosci i tuoi istruttori</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>        
+      </button>
     </div>
   </div>
 </div>

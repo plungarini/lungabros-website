@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, switchMap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { FirebaseExtendedService } from 'src/app/shared/services/firebase-extended.service';
 import { Course } from '../../models/course.model';
 
 @Component({
-  selector: 'app-course-advice',
-  templateUrl: './course-advice.component.html',
+  selector: 'app-course-suggestion',
+  templateUrl: './course-suggestion.component.html',
   styles: [
     `
       :host {
@@ -15,9 +15,10 @@ import { Course } from '../../models/course.model';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CourseAdviceComponent implements OnInit, OnDestroy {
+export class CourseSuggestionComponent implements OnInit, OnDestroy {
+
   courseSub: Subscription[] = [];
-  advices: {
+  suggestions: {
     id: string;
     title: string;
     bgImg: string;
@@ -27,9 +28,9 @@ export class CourseAdviceComponent implements OnInit, OnDestroy {
     if (!value) return;
     this.course = value;
 
-    if (!value.courseAdvice || value.courseAdvice.length <= 0) return;
-    value.courseAdvice.forEach(advice => {
-      const sub = this.db.getDoc<Course>(`courses/${advice}`).subscribe(course => {
+    if (!value.suggestedCourse || value.suggestedCourse.length <= 0) return;
+    value.suggestedCourse.forEach(suggestion => {
+      const sub = this.db.getDoc<Course>(`courses/${suggestion}`).subscribe(course => {
         if (!course) return;
         const obj = {
           id: course.id,
@@ -39,12 +40,12 @@ export class CourseAdviceComponent implements OnInit, OnDestroy {
             .trim(),
           bgImg: course.bgImg,
         };
-        for (let [i, value] of this.advices.entries()) {
+        for (let [i, value] of this.suggestions.entries()) {
           if (value.id === obj.id) {
-            this.advices.splice(i, 1);
+            this.suggestions.splice(i, 1);
           }
         }
-        this.advices.push(obj);
+        this.suggestions.push(obj);
         this.cdRef.detectChanges();
       });
       this.courseSub.push(sub);
