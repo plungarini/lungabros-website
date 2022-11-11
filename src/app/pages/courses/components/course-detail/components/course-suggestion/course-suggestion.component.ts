@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FirebaseExtendedService } from 'src/app/shared/services/firebase-extended.service';
-import { Course } from '../../../../models/course.model';
+import { Course } from '../../../../../../shared/models/course.model';
 
 @Component({
   selector: 'app-course-suggestion',

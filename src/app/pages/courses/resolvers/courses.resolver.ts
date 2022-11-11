@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { FirebaseExtendedService } from 'src/app/shared/services/firebase-extended.service';
-import { Course } from '../models/course.model';
+import { Course } from '../../../shared/models/course.model';
 
 @Injectable({
   providedIn: 'root'

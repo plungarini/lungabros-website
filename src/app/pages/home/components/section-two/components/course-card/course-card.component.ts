@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Course } from '../../../../../../shared/models/course.model';
+import { Course } from 'src/app/shared/models/course.model';
 
 @Component({
   selector: 'app-course-card',
@@ -45,7 +45,7 @@ export class CourseCardComponent implements OnInit {
   }
 
   get isHighlighted(): boolean {
-    return this.course?.category.includes('main') ? true : false;
+    return false;
   }
 
   onDone() {

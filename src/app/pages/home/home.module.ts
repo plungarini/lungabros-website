@@ -12,6 +12,7 @@ import { SectionThreeComponent } from './components/section-three/section-three.
 import { SectionFourComponent } from './components/section-four/section-four.component';
 import { BannerComponent } from './components/banner/banner.component';
 import { SpecialtiesCardComponent } from './components/section-two/components/specialties-card/specialties-card.component';
+import { CourseCardComponent } from './components/section-two/components/course-card/course-card.component';
 
 
 
@@ -27,6 +28,7 @@ import { SpecialtiesCardComponent } from './components/section-two/components/sp
     SectionFourComponent,
     BannerComponent,
     SpecialtiesCardComponent,
+    CourseCardComponent,
   ],
   imports: [
     CommonModule,

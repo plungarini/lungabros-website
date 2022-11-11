@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Course } from '../../models/course.model';
+import { Course } from '../../../../shared/models/course.model';
 import { HeaderService } from '../../services/header.service';
 
 @Component({

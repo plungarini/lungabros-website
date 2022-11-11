@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { fromEvent, map, Observable, startWith, Subscription } from 'rxjs';
 import { FirebaseExtendedService } from 'src/app/shared/services/firebase-extended.service';
-import { Course } from '../../models/course.model';
+import { Course } from '../../../../shared/models/course.model';
 import { CourseFilters } from '../../models/course-filters.model';
 import { HeaderService } from '../../services/header.service';
 import { FormControl } from '@angular/forms';
