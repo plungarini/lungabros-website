@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Course } from '../../../../models/course.model';
 
@@ -11,11 +12,32 @@ import { Course } from '../../../../models/course.model';
       }
     `
   ],
+  animations: [
+    trigger('noCourseAnim', [
+      state('from', style({ left: '-100%', right: '140%' })),
+      state('to', style({ right: '-100%', left: '140%' })),
+      transition('from => to', [
+        animate('2000ms ease-out')
+      ]),
+      transition('to => from', [
+        animate('0ms')
+      ]),
+    ]),
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseCardComponent implements OnInit {
 
-  @Input() course: Course | undefined;
+  @Input('course') set setCourse(value: Course | undefined) {
+    if (!value) return;
+    this.course = value;
+    this.times = 0;
+  };
+  
+  course: Course | undefined;
+  times = 100;
+  counter = 0;
+  state = 'to';
 
   constructor() { }
 
@@ -24,6 +46,13 @@ export class CourseCardComponent implements OnInit {
 
   get isHighlighted(): boolean {
     return this.course?.category.includes('main') ? true : false;
+  }
+
+  onDone() {
+    if (this.counter < this.times) {
+      this.state = this.state === 'to' ? 'from' : 'to';
+      this.counter++;
+    }
   }
 
 }

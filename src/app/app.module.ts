@@ -14,6 +14,7 @@ import { provideFunctions,getFunctions } from '@angular/fire/functions';
 import { ImgixAngularModule } from '@imgix/angular';
 import { FooterComponent } from './components/footer/footer.component';
 import { SharedModule } from './shared/shared.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { SharedModule } from './shared/shared.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HomeModule,
     ImgixAngularModule.forRoot({

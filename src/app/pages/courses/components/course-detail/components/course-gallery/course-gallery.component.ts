@@ -25,9 +25,14 @@ export class CourseGalleryComponent implements OnInit {
         return normA - normB;
       })
     };
+    this.normGallery = this.course.gallery.map((p) => ({
+      src: p,
+      loaded: false,
+    }));
   }
 
   course: Course | undefined;
+  normGallery: any[] = [];
   selectedImg = 0;
 
   constructor() { }
@@ -45,13 +50,18 @@ export class CourseGalleryComponent implements OnInit {
     }
   }
 
-  nextImg(index?: number): void {
+  nextImg(index?: number, el?: HTMLElement): void {
     const newIndex = index !== undefined ? index + 1 : this.selectedImg + 1;
     if (this.course?.gallery[newIndex]) {
       this.selectedImg = newIndex;
     } else {
       this.selectedImg = 0;
     }
+  }
+
+  imgLoaded(i: number): void {
+    console.log('loaded', i);
+    this.normGallery[i].loaded = true
   }
 
 }

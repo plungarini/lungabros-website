@@ -28,18 +28,18 @@
     <div class="relative px-6 pb-4 z-20 -mt-12">
       <h3 class="text-4xl">Assieme a noi</h3>
       <p [innerHtml]="course.howToLearn.inPerson"></p>
-      <ul>
-        <li>
-          <p>- <b>Prerequisiti:</b> {{ course.specs.specs.pre }}</p>
+      <ul *ngIf="course.specs.specs as specs">
+        <li *ngIf="specs.pre">
+          <p>- <b>Prerequisiti:</b> {{ specs.pre }}</p>
         </li>
-        <li>
-          <p>- <b>Tempo totale del corso:</b> ~{{ course.specs.specs.time }} giorni</p>
+        <li *ngIf="specs.time">
+          <p>- <b>Tempo totale del corso:</b> ~{{ specs.time }} giorni</p>
         </li>
-        <li>
-          <p>- <b>Età minima:</b> {{ course.specs.specs.age }} anni</p>
+        <li *ngIf="specs.age">
+          <p>- <b>Età minima:</b> {{ specs.age }} anni</p>
         </li>
-        <li>
-          <p>- <b>Profondità massima:</b> {{ course.specs.specs.depth }} metri</p>
+        <li *ngIf="specs.depth">
+          <p>- <b>Profondità massima:</b> {{ specs.depth }} metri</p>
         </li>
       </ul>
       <button class="flex flex-row items-center text-indigo-400 border-b-2 border-zinc-900 hover:border-indigo-400 mt-4 transition-all duration-200">

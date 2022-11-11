@@ -27,6 +27,7 @@ export class CourseSuggestionComponent implements OnInit, OnDestroy {
   @Input('course') set setCourse(value: Course | undefined) {
     if (!value) return;
     this.course = value;
+    this.suggestions = [];
 
     if (!value.suggestedCourse || value.suggestedCourse.length <= 0) return;
     value.suggestedCourse.forEach(suggestion => {

@@ -6,6 +6,10 @@ import { CoursesListComponent } from './courses-list.component';
 import { ImgixAngularModule } from '@imgix/angular';
 import { FiltersComponent } from './components/filters/filters.component';
 import { CourseCardComponent } from './components/course-card/course-card.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { PaginatePipe } from './pipes/paginate.pipe';
+
 
 
 @NgModule({
@@ -13,11 +17,14 @@ import { CourseCardComponent } from './components/course-card/course-card.compon
     CoursesListComponent,
     FiltersComponent,
     CourseCardComponent,
+    PaginationComponent,
+    PaginatePipe,
   ],
   imports: [
     CommonModule,
     CoursesListRoutingModule,
     ImgixAngularModule,
+    ReactiveFormsModule,
   ]
 })
 export class CoursesListModule { }
