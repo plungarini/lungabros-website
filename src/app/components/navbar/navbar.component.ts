@@ -19,7 +19,6 @@ export class NavbarComponent implements OnInit {
   navigation = [
     { name: 'Home', url: '' },
     { name: 'Corsi', url: 'courses' },
-    { name: 'Blog', url: 'blog' },
     { name: 'About Us', url: 'about-us' },
     { name: 'Contatti', url: 'contact-us' },
   ];
