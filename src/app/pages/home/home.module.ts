@@ -11,7 +11,6 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { SectionThreeComponent } from './components/section-three/section-three.component';
 import { SectionFourComponent } from './components/section-four/section-four.component';
 import { BannerComponent } from './components/banner/banner.component';
-import { SpecialtiesCardComponent } from './components/section-two/components/specialties-card/specialties-card.component';
 import { CourseCardComponent } from './components/section-two/components/course-card/course-card.component';
 
 
@@ -27,7 +26,6 @@ import { CourseCardComponent } from './components/section-two/components/course-
     SectionThreeComponent,
     SectionFourComponent,
     BannerComponent,
-    SpecialtiesCardComponent,
     CourseCardComponent,
   ],
   imports: [

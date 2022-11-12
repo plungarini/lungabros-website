@@ -60,7 +60,6 @@ export class CourseGalleryComponent implements OnInit {
   }
 
   imgLoaded(i: number): void {
-    console.log('loaded', i);
     this.normGallery[i].loaded = true
   }
 

@@ -38,10 +38,6 @@ export class SectionTwoComponent implements OnInit, OnDestroy {
     });
   }
 
-  toggleSpecialties(): void {
-    this.showSpec = true;
-  }
-
   ngOnDestroy(): void {
     this.courseSubs.forEach((sub) => sub.unsubscribe());
   }
