@@ -1,8 +1,14 @@
-<app-header imgPath="gallery/instructors.jpg" align="object-top"></app-header>
-<div class="mx-4 sm:mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 pt-16 shadow-2xl rounded-xl -mt-60 relative z-20 overflow-visible">
-  <app-short-desc></app-short-desc>
-  <app-my-story></app-my-story>
-  <app-certifications></app-certifications>
-
-  <app-banner></app-banner>
+<div *ngIf="true" #cv>
+  <app-header imgPath="gallery/instructors.jpg" align="object-top"></app-header>
+  <div *ngIf="curriculum as c" class="mx-4 sm:mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 pt-16 shadow-2xl rounded-xl -mt-60 relative z-20 overflow-visible">
+    <app-short-desc [name]="c.name" [desc]="c.desc"></app-short-desc>
+    <app-my-story [stories]="c.stories" [specs]="c.specs" (printPdf)="generatePdf()"></app-my-story>
+    <app-certifications [certs]="c.certs"></app-certifications>
+  
+    <app-banner></app-banner>
+  </div>
 </div>
+
+<ng-container
+  #pdfContainer
+></ng-container>

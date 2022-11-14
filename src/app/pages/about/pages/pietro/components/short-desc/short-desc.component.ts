@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-short-desc',
@@ -14,19 +14,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class ShortDescComponent implements OnInit {
 
+  @Input() desc: string = '';
+  @Input() name: string = '';
+
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  get age(): number {
-    const myMonth = 6;
-    const myDay = 20;
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth() + 1;
-    const day = new Date().getDate();
-    const res = year - 1999;
-    return (month < myMonth) ? res - 1 : (month === myMonth) ? day < myDay ? res - 1 : res : res;
   }
 
 }

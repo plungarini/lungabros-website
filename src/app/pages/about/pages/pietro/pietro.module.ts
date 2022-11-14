@@ -9,6 +9,7 @@ import { ShortDescComponent } from './components/short-desc/short-desc.component
 import { BannerComponent } from './components/banner/banner.component';
 import { CertificationsComponent } from './components/certifications/certifications.component';
 import { MyStoryComponent } from './components/my-story/my-story.component';
+import { PdfComponent } from './components/pdf/pdf.component';
 
 
 @NgModule({
@@ -18,12 +19,13 @@ import { MyStoryComponent } from './components/my-story/my-story.component';
     ShortDescComponent,
     BannerComponent,
     CertificationsComponent,
-    MyStoryComponent
+    MyStoryComponent,
+    PdfComponent
   ],
   imports: [
     CommonModule,
     PietroRoutingModule,
-    ImgixAngularModule
+    ImgixAngularModule,
   ]
 })
 export class PietroModule { }
