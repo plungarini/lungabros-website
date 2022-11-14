@@ -1,6 +1,6 @@
 <div class="mt-16 relative">
   <div class="grid grid-cols-1 md:grid-cols-6 relative gap-10">
-    <div class="flex-1 w-full max-w-3xl col-span-4">
+    <div class="flex-1 w-full max-w-3xl col-span-1 md:col-span-4">
       <h3>La mia storia</h3>
       <p class="max-w-prose">Ne sono passate molte per arrivare fino a qua! Ecco ciò che ho fatto negli ultimi anni:</p>
     
@@ -35,7 +35,7 @@
 
     </div>
 
-    <div *ngIf="specs" class="hidden md:block col-span-2 w-full max-w-full sticky top-12 self-start">
+    <div *ngIf="specs" class="col-span-1 md:col-span-2 w-full max-w-full mt-4 md:mt-0 md:sticky md:top-12 self-start">
       <div class="px-6 py-4 h-max rounded-md bg-zinc-800/50 shadow-2xl w-full">
         <p class="font-bold text-zinc-200 mt-0">Skills lavorative:</p>
         <ul class="space-y-2 mt-2">
@@ -58,11 +58,55 @@
         </ul>
       </div>
 
-      <div (click)="print()" class="px-6 py-2 h-max rounded-md bg-zinc-800 shadow-2xl w-full mt-6 flex flex-row items-center justify-center ring ring-offset-3 ring-offset-zinc-900 ring-indigo-400 cursor-pointer">
-        <p class="text-indigo-400 font-bold mt-0">Scarica il mio CV</p>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-indigo-400 ml-4">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 13.5l3 3m0 0l3-3m-3 3v-6m1.06-4.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-        </svg>        
+      <div
+        (click)="print()"
+        [ngClass]="{
+          'hover:bg-zinc-700' : state === 'off',
+          'bg-zinc-700 ring-0' : state === 'downloading',
+          'ring-teal-500' : state === 'completed',
+          'ring bg-zinc-800' : state === 'off' || state === 'completed'
+        }"
+        class="relative px-6 py-2 h-max rounded-md bg-zinc-800 hover:bg-zinc-700 shadow-2xl w-full mt-6 flex flex-row items-center justify-center ring ring-offset-3 ring-offset-zinc-900 ring-indigo-400 cursor-pointer transition-all duration-300"
+      >
+        <div
+          [ngClass]="{
+            'opacity-100': state === 'off',
+            'opacity-0': state !== 'off'
+          }"
+          class="relative opacity-100 w-full flex flex-row items-center justify-center z-0 transition-all duration-300"
+        >
+          <p class="text-indigo-400 font-bold mt-0">Scarica il mio CV</p>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-indigo-400 ml-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 13.5l3 3m0 0l3-3m-3 3v-6m1.06-4.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+          </svg>        
+        </div>
+        <div
+          [ngClass]="{
+            'opacity-100': state === 'downloading',
+            'opacity-0': state !== 'downloading'
+          }"
+          class="absolute flex flex-row items-center justify-center top-2 opacity-100 z-10 transition-all duration-300"
+        >
+          <p class="text-zinc-100 font-bold mt-0">Sto elaborando...</p>
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-6 h-6 ml-4" style="shape-rendering: auto;" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+            <circle cx="50" cy="50" fill="none" class="stroke-zinc-100" stroke-width="10" r="42" stroke-dasharray="197.92033717615698 67.97344572538566">
+              <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+            </circle>
+          </svg>     
+        </div>
+        <div
+          [ngClass]="{
+            'opacity-100': state === 'completed',
+            'opacity-0': state !== 'completed'
+          }"
+          class="absolute w-full flex flex-row items-center justify-center top-2 opacity-100 z-20 transition-all duration-300"
+        >
+          <p class="text-teal-500 font-bold mt-0">Scaricato</p>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-teal-400 ml-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+          </svg>          
+        </div>
+
       </div>
     </div>
 

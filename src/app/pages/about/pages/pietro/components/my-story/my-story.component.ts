@@ -17,6 +17,7 @@ export class MyStoryComponent implements OnInit {
 
   @Input() stories: Story[] = [];
   @Input() specs: Specs | undefined;
+  @Input() state: 'off' | 'downloading' | 'completed' = 'off';
   @Output() printPdf = new EventEmitter();
 
   constructor() { }
@@ -73,7 +74,8 @@ export class MyStoryComponent implements OnInit {
   }
 
   print(): void {
-    this.printPdf.emit();
+    if (this.state === 'off')
+      this.printPdf.emit();
   }
 
 }

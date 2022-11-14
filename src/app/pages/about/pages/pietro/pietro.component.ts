@@ -127,6 +127,7 @@ export class PietroComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   certsSub: Subscription | undefined;
+  downloadState: 'off' | 'downloading' | 'completed' = 'off';
 
   constructor(
     private db: FirebaseExtendedService,
@@ -165,6 +166,7 @@ export class PietroComponent implements OnInit, OnDestroy, AfterViewInit {
   generatePdf() {
     const doc = new jsPDF('p', 'px', 'a4');
     if (!this.container) return;
+    this.downloadState = 'downloading';
     const pdfContentRef = this.container.createComponent(PdfComponent);
     const pdfContent = pdfContentRef.instance;
     pdfContent.visible = false;
@@ -188,9 +190,15 @@ export class PietroComponent implements OnInit, OnDestroy, AfterViewInit {
           windowWidth: 1300,
           autoPaging: 'text',
           callback: (doc) => {
-            doc.output('dataurlnewwindow', { filename: `Curriculum - ${this.curriculum.name}` });
+            //doc.output('dataurlnewwindow', { filename: `Curriculum - ${this.curriculum.name}` });
             doc.setLanguage('it');
-            doc.save(`Curriculum - ${this.curriculum.name}`)
+            this.downloadState = 'completed';
+            this.cdRef.detectChanges();
+            doc.save(`Curriculum - ${this.curriculum.name}`);
+            setTimeout(() => {
+              this.downloadState = 'off';
+              this.cdRef.detectChanges();
+            }, 3000);
             sub.unsubscribe();
             this.container?.remove();
           },
