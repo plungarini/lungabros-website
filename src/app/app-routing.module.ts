@@ -11,11 +11,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/courses/courses.module').then(m => m.CoursesModule),
   },
   {
-    path: 'about-us',
+    path: 'about',
     loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule)
   },
   {
-    path: 'contact-us',
+    path: 'contact',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
   },
 ];

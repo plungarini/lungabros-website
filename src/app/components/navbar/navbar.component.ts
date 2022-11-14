@@ -19,8 +19,8 @@ export class NavbarComponent implements OnInit {
   navigation = [
     { name: 'Home', url: '' },
     { name: 'Corsi', url: 'courses' },
-    { name: 'About Us', url: 'about-us' },
-    { name: 'Contatti', url: 'contact-us' },
+    { name: 'About Us', url: 'about' },
+    { name: 'Contatti', url: 'contact' },
   ];
 
   constructor(private cdRef: ChangeDetectorRef) { }
