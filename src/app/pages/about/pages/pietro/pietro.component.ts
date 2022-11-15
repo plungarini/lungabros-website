@@ -83,13 +83,13 @@ export class PietroComponent implements OnInit, OnDestroy {
         time: new Date(1651356000000), //new Date('2022, 05, 1'),
       },
       {
-        title: 'PADI/DAN DEEP-X Diver',
+        title: 'PADI/DAN COLTRI Compressor Operator',
         desc: 'Mentre stavamo terminando il corso Divemaster abbiamo anche pensato di conseguire la specialità di Operatore Compressori Coltri® per essere abilitati alla manutenzione ordinaria di questi compressori. Abbiamo anche imparato ad installare correttamente un compressore Coltri e a seguire le raccomandazioni di DAN Research riguardo alla Qualità dell\'Aria e ai controlli periodici della stessa.',
         isWorkingExperience: true,
         time: new Date(1656626400000), //new Date('2022, 07, 1'),
       },
       {
-        title: 'PADI/DAN COLTRI Compressor Operator',
+        title: 'PADI/DAN DEEP-X Diver',
         desc: 'Sempre durante il corso Divemaster abbiamo deciso di specializzarci anche nella specialità "DEEP-X" che ci abilità ad eseguire una sosta decompressiva limitata di 5 minuti. Abbiamo anche imparato a registrare le nostre immersioni tramite il sistema di ricerca DAN per inoltrarle a favore di studi scientifici.',
         isWorkingExperience: true,
         time: new Date(1661983200000), //new Date('2022, 09, 1'),
