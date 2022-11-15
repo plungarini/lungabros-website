@@ -22,7 +22,7 @@ export class PietroComponent implements OnInit, OnDestroy, AfterViewInit {
   MARGIN_TOP = 5;
   MARGIN_BOTTOM = 5;
   
-  birthday = new Date('1999, 06, 20'); // yyyy, mm, dd
+  birthday = new Date(929829600000); // new Date('1999, 06, 20');
 
   curriculum: Curriculum = {
     name: 'Pietro Lungarini',
