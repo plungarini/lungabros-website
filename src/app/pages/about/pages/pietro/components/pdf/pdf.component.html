@@ -51,7 +51,7 @@
             <p class="font-bold text-zinc-800 -mt-2">Skills lavorative:</p>
             <ul class="space-y-2 mt-2">
               <li *ngFor="let item of curriculum.specs.passions; let last = last" class="flex flex-row items-center">
-                <img src="assets/pdf/check.png" class="w-6 h-6 shrink-0 translate-y-2" alt="">
+                <img src="assets/pdf/icons/check.png" class="w-6 h-6 shrink-0 translate-y-2" alt="">
                 <p class="mt-0 ml-2 text-zinc-400 text-base">{{item}}{{last ? '.' : ';'}}</p>
               </li>
             </ul>
@@ -66,6 +66,18 @@
               </li>
             </ul>
           </div>
+    
+          <div class="px-6 pt-4 pb-6 h-max rounded-lg border border-zinc-300 shadow-2xl w-full mt-6">
+            <p class="font-bold text-zinc-800 -mt-2">Informazioni di contatto:</p>
+            <div class="mt-2 mb-2 flex flex-row items-center">
+              <img src="assets/pdf/icons/email.png" class="w-6 h-6 shrink-0 translate-y-2" alt="">
+              <a class="mt-0 ml-2 text-zinc-400 text-base" href="mailto:{{curriculum.contacts.email}}">{{curriculum.contacts.email}}</a>
+            </div>
+            <div class="mb-1 flex flex-row items-center">
+              <img src="assets/pdf/icons/smartphone.png" class="w-6 h-6 shrink-0 translate-y-2" alt="">                         
+              <a class="mt-0 ml-2 text-zinc-400 text-base" href="tel:{{curriculum.contacts.phone}}">{{curriculum.contacts.phone}}</a>
+            </div>
+          </div>
         </div>
     
       </div>
@@ -73,7 +85,7 @@
 
     <div class="mt-16 max-w-6xl mx-auto">
       <div class="flex flex-row items-center mb-4">
-        <h3 class="block text-zinc-900">Le mie certificazioni</h3><p class="block ml-2 -mt-2.5 text-zinc-400" *ngIf="curriculum.certs.length">( {{curriculum.certs.length}} )</p>
+        <h3 class="block text-zinc-900">Le mie certificazioni</h3><p class="block ml-2 -mt-2.5 text-zinc-400" *ngIf="curriculum.certs.length">({{curriculum.certs.length}})</p>
       </div>
     
       <div class="flex flex-row gap-6 flex-wrap">

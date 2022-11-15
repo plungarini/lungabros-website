@@ -22,10 +22,16 @@ export interface Certification {
   isPro: boolean;
 }
 
+interface Contacts {
+  email: string;
+  phone: string;
+}
+
 export interface Curriculum {
   name: string;
   desc: string;
   stories: Story[];
   specs: Specs;
   certs: Certification[];
+  contacts: Contacts;
 }

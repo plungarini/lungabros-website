@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { delay, Subscription } from 'rxjs';
 import { FirebaseExtendedService } from 'src/app/shared/services/firebase-extended.service';
 import { Certification, Curriculum } from './models/curriculum.model';
@@ -16,11 +16,11 @@ import { PdfComponent } from './components/pdf/pdf.component';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PietroComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PietroComponent implements OnInit, OnDestroy {
   @ViewChild("pdfContainer", { read: ViewContainerRef }) container: ViewContainerRef | undefined;
 
   MARGIN_TOP = 5;
-  MARGIN_BOTTOM = 5;
+  MARGIN_BOTTOM = 20;
   
   birthday = new Date(929829600000); // new Date('1999, 06, 20');
 
@@ -124,6 +124,10 @@ export class PietroComponent implements OnInit, OnDestroy, AfterViewInit {
       ],
     },
     certs: [],
+    contacts: {
+      email: 'pietro@lungarini.it',
+      phone: '+393349447086'
+    },
   };
 
   certsSub: Subscription | undefined;
@@ -139,15 +143,6 @@ export class PietroComponent implements OnInit, OnDestroy, AfterViewInit {
       this.curriculum.certs = certs.sort((a, b) => (a.isPro ? a?.priority || 40 : 50) - (b.isPro ? b?.priority || 40 : 50));
       this.cdRef.detectChanges();
     });
-  }
-  
-  ngAfterViewInit(): void {
-    /*if (!this.container) return console.error('No container');
-    const pdfContentRef = this.container.createComponent(PdfComponent);
-    const pdfContent = pdfContentRef.instance;
-    pdfContent.visible = true;
-    pdfContent.curriculum = this.curriculum;*/
-    console.log(this.curriculum.stories.map((a, i) => ({ index: i, fullDate: a.time, mills: a.time.getTime() })))
   }
 
   ngOnDestroy(): void {
@@ -172,27 +167,58 @@ export class PietroComponent implements OnInit, OnDestroy, AfterViewInit {
     const pdfContent = pdfContentRef.instance;
     pdfContent.visible = false;
     pdfContent.curriculum = this.curriculum;
+    
     const sub = pdfContent.loaded
       .pipe(delay(1))
       .subscribe(() => {
-        const el = pdfContent.cvElement?.nativeElement;
-        if (!el) {
+        const cvEl = pdfContent.cvElement?.nativeElement;
+        const setFamily = (element: HTMLElement) => {
+          const len = element.children.length || 0;
+          if (len <= 0) return;
+          for (let i = 0; i < len; i++) {
+            const e = element.children.item(i) as HTMLElement | null
+            if (e) {
+              if (['h1', 'h2', 'h3'].indexOf(e.nodeName.toLowerCase()) !== -1) {
+                if (e.nodeName.toLowerCase() === 'h1') e.style.fontFamily = '"Times", sans-serif';
+                return;
+              };
+              e.style.fontFamily = '"helvetica", sans-serif';
+              setFamily(e);
+            };
+          }
+        };
+        if (cvEl) setFamily(cvEl);
+        console.log(doc.getFontList())
+        if (!cvEl) {
           this.container?.remove();
           sub.unsubscribe();
           return console.error('CV is undefined');
         };
-        doc.html(el.outerHTML, {
+        doc.html(cvEl.outerHTML, {
           html2canvas: {
             scale: 0.3434,
             svgRendering: true,
+            letterRendering: true,
           },
           margin: [this.MARGIN_TOP, 0, this.MARGIN_BOTTOM, 0],
           width: 1300,
           windowWidth: 1300,
           autoPaging: 'text',
           callback: (doc) => {
-            //doc.output('dataurlnewwindow', { filename: `Curriculum - ${this.curriculum.name}` });
             doc.setLanguage('it');
+            const addFooter = () => {
+              const pageCount = doc.getNumberOfPages();
+              for (var i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                const text = `Pagina ${i} di ${pageCount} - Curriculum ${this.curriculum.name} - &copy; ${new Date().getFullYear()} LUNGABROS`;
+                const xOffset = ((doc.internal.pageSize.width) - (doc.getStringUnitWidth(text))) - 10;
+                doc.setFontSize(5);
+                doc.text(text, xOffset, doc.internal.pageSize.height - (this.MARGIN_BOTTOM / 2), {
+                  align: 'right',
+                });
+              }
+            };
+            addFooter();
             this.downloadState = 'completed';
             this.cdRef.detectChanges();
             doc.save(`Curriculum - ${this.curriculum.name}`);

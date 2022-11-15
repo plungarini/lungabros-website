@@ -63,6 +63,7 @@
         [ngClass]="{
           'hover:bg-zinc-700' : state === 'off',
           'bg-zinc-700 ring-0' : state === 'downloading',
+          'ring-indigo-400' : state !== 'completed',
           'ring-teal-500' : state === 'completed',
           'ring bg-zinc-800' : state === 'off' || state === 'completed'
         }"
