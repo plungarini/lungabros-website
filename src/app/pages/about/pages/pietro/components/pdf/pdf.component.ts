@@ -94,4 +94,20 @@ export class PdfComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  normSocial(id: string): string {
+    switch (id) {
+      case 'ig':
+        return 'Instagram';
+      case 'in':
+        return 'Linkedin';
+      case 'fb':
+        return 'Facebook';
+      case 'tw':
+        return 'Twitter';
+    
+      default:
+        return '';
+    }
+  }
+
 }

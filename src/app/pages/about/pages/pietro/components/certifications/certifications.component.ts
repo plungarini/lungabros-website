@@ -17,6 +17,7 @@ import { Certification } from '../../models/curriculum.model';
 export class CertificationsComponent implements OnInit, OnDestroy {
 
   @Input() certs: Certification[] = [];
+  @Input() memberId: number = 0;
 
   mediaSub: Subscription | undefined;
   isMobile = false;

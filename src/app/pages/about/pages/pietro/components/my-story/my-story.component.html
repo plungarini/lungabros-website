@@ -4,9 +4,9 @@
       <h3>La mia storia</h3>
       <p class="max-w-prose">Ne sono passate molte per arrivare fino a qua! Ecco ciò che ho fatto negli ultimi anni:</p>
     
-      <div class="flex flex-col space-y-16 mt-8 pt-2 md:border-l-2 border-zinc-800">
+      <div class="flex flex-col space-y-8 md:space-y-16 divide-y-2 md:divide-y-0 divide-zinc-800 mt-8 pt-2 md:border-l-2 border-zinc-800">
         <ng-container *ngFor="let item of stories">
-          <article *ngIf="item.desc" class="md:grid md:grid-cols-4 md:items-baseline group/article relative md:ml-6">
+          <article *ngIf="item.desc" class="pt-8 md:pt-0 md:grid md:grid-cols-4 md:items-baseline relative md:ml-6">
             <div class="hidden md:block absolute top-[1.13rem] -left-[1.95rem] w-3 h-3 scale-90 rounded-full bg-zinc-500"></div>
             <div class="md:col-span-3 group/content relative flex flex-col items-start">
               <div class="text-base font-semibold tracking-tight text-zinc-100">

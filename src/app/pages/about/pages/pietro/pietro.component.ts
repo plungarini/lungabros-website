@@ -122,6 +122,13 @@ export class PietroComponent implements OnInit, OnDestroy {
         { flag: 'en', name: 'Inglese', level: 2 },
         { flag: 'de', name: 'Tedesco', level: 4 },
       ],
+      memberId: 529123,
+      socials: [
+        { id: 'ig', username: 'wheresbebo' },
+        { id: 'fb', username: 'pietrolungarini' },
+        { id: 'in', username: 'plungarini' },
+        { id: 'tw', username: 'wheresbebo' },
+      ],
     },
     certs: [],
     contacts: {
@@ -160,7 +167,7 @@ export class PietroComponent implements OnInit, OnDestroy {
   }
 
   generatePdf() {
-    const doc = new jsPDF('p', 'px', 'a4');
+    const doc = new jsPDF('p', 'px', 'a4', true);
     if (!this.container) return;
     this.downloadState = 'downloading';
     const pdfContentRef = this.container.createComponent(PdfComponent);
@@ -188,7 +195,6 @@ export class PietroComponent implements OnInit, OnDestroy {
           }
         };
         if (cvEl) setFamily(cvEl);
-        console.log(doc.getFontList())
         if (!cvEl) {
           this.container?.remove();
           sub.unsubscribe();
@@ -210,7 +216,7 @@ export class PietroComponent implements OnInit, OnDestroy {
               const pageCount = doc.getNumberOfPages();
               for (var i = 1; i <= pageCount; i++) {
                 doc.setPage(i);
-                const text = `Pagina ${i} di ${pageCount} - Curriculum ${this.curriculum.name} - &copy; ${new Date().getFullYear()} LUNGABROS`;
+                const text = `Pagina ${i} di ${pageCount} - Curriculum ${this.curriculum.name} - © ${new Date().getFullYear()} LUNGABROS`;
                 const xOffset = ((doc.internal.pageSize.width) - (doc.getStringUnitWidth(text))) - 10;
                 doc.setFontSize(5);
                 doc.text(text, xOffset, doc.internal.pageSize.height - (this.MARGIN_BOTTOM / 2), {

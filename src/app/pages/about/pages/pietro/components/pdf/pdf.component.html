@@ -51,20 +51,28 @@
             <p class="font-bold text-zinc-800 -mt-2">Skills lavorative:</p>
             <ul class="space-y-2 mt-2">
               <li *ngFor="let item of curriculum.specs.passions; let last = last" class="flex flex-row items-center">
-                <img src="assets/pdf/icons/check.png" class="w-6 h-6 shrink-0 translate-y-2" alt="">
+                <img src="assets/pdf/icons/check.png" class="w-5 h-5 shrink-0 translate-y-2" alt="">
                 <p class="mt-0 ml-2 text-zinc-400 text-base">{{item}}{{last ? '.' : ';'}}</p>
               </li>
             </ul>
           </div>
     
           <div class="px-6 pt-4 pb-6 h-max rounded-lg border border-zinc-300 shadow-2xl w-full mt-6">
-            <p class="font-bold text-zinc-800 -mt-2">Lingue parlate:</p>
+            <p class="font-bold text-zinc-800 -mt-2">Lingue che conosco:</p>
             <ul class="space-y-2 mt-2">
               <li *ngFor="let lang of curriculum.specs.lang" class="flex flex-row items-center">
                 <img [src]="'assets/pdf/flags/' + lang.flag + '.png'" class="w-6 rounded-sm shadow-lg mr-2 shrink-0 translate-y-2" alt="">
                 <p class="mt-0 ml-2 text-zinc-400 text-base"><span class="font-bold">{{lang.name}}</span> - <span class="text-sm">{{normLangText(lang.level)}}</span></p>
               </li>
             </ul>
+          </div>
+    
+          <div class="px-6 pt-4 pb-6 h-max rounded-lg border border-zinc-300 shadow-2xl w-full mt-6">
+            <p class="font-bold text-zinc-800 -mt-2">Social Media:</p>
+            <div *ngFor="let social of curriculum.specs.socials" class="mt-2 mb-2 flex flex-row items-center">
+              <img src="assets/pdf/social/{{social.id}}.png" class="w-6 h-6 shrink-0 translate-y-2" alt="">
+              <p class="mt-0 ml-2 text-zinc-400 text-base"><span class="font-bold text-indigo-400">{{normSocial(social.id)}}</span> @{{social.username}}</p>
+            </div>
           </div>
     
           <div class="px-6 pt-4 pb-6 h-max rounded-lg border border-zinc-300 shadow-2xl w-full mt-6">
@@ -84,8 +92,12 @@
     </div>
 
     <div class="mt-16 max-w-6xl mx-auto">
-      <div class="flex flex-row items-center mb-4">
-        <h3 class="block text-zinc-900">Le mie certificazioni</h3><p class="block ml-2 -mt-2.5 text-zinc-400" *ngIf="curriculum.certs.length">({{curriculum.certs.length}})</p>
+      <div class="flex flex-row items-center mb-6">
+        <h3 class="block text-zinc-900">Le mie certificazioni</h3>
+        <div class="block group ml-1 scale-75 text-zinc-800 translate-y-1.5">
+          <img src="assets/pdf/padi_logo.png" class="w-6 h-6 mr-2 inline-block" alt="">
+          <p class="text-zinc-800 mt-0 inline-block -translate-y-2 font-bold">PADI #<span class="text-indigo-500">{{curriculum.specs.memberId}}</span></p>
+        </div>
       </div>
     
       <div class="flex flex-row gap-6 flex-wrap">

@@ -14,6 +14,8 @@ interface Language {
 export interface Specs {
   passions: string[];
   lang: Language[];
+  memberId: number;
+  socials: Social[];
 }
 
 export interface Certification {
@@ -25,6 +27,11 @@ export interface Certification {
 interface Contacts {
   email: string;
   phone: string;
+}
+
+interface Social {
+  id: 'ig' | 'fb' | 'in' | 'tw';
+  username: string;
 }
 
 export interface Curriculum {
