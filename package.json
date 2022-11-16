@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "deploy": "git add . && git commit -a -m 'deploy' && git push && ng deploy",
+    "setupEnv": "npm i -g @angular/cli firebase-tools",
     "fToken": "1//03JjD-OaYV_ZFCgYIARAAGAMSNwF-L9IrXrE_uvfgfWffDg3GOaSGFZZbKiEROrAGv5m8LxdHeAYDkV1uso3v72jb2b3a9IzdX-0"
   },
   "private": true,

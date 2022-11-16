@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { UsersService } from 'src/app/auth/services/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +14,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   menuOpen = false;
   menuAnimationOpen = false;
 
@@ -23,9 +25,24 @@ export class NavbarComponent implements OnInit {
     { name: 'Contatti', url: 'contact' },
   ];
 
-  constructor(private cdRef: ChangeDetectorRef) { }
+  userSub: Subscription | undefined;
+  isUserAdmin = false;
+
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    private userService: UsersService,
+  ) { }
 
   ngOnInit(): void {
+    this.userSub = this.userService.getCurrentUserDb()
+      .subscribe(u => {
+        this.isUserAdmin = u?.roles?.admin || false;
+        this.cdRef.detectChanges();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.userSub?.unsubscribe();
   }
 
   toggleMenu(state?: boolean): void {

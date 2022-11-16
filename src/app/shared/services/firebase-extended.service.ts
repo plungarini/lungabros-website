@@ -45,7 +45,7 @@ export class FirebaseExtendedService {
     return ref.id;
   }
 
-  async upsert<T>(path: string, obj: T): Promise<void> {
+  async upsert<T>(path: string, obj: Partial<T>): Promise<void> {
     if (!path) return;
 
     const docRef = doc(this.firestore, path);

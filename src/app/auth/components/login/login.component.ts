@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
+  templateUrl: './login.component.html',
   styles: [
     `
       :host {
@@ -12,13 +12,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FooterComponent implements OnInit {
-  year = new Date().getFullYear();
+export class LoginComponent implements OnInit {
 
-  constructor(
-  ) { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
+    this.auth.googleLogin();
   }
 
 }

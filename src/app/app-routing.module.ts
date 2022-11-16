@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from './shared/guards/admin.guard';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -12,12 +14,27 @@ const routes: Routes = [
   },
   {
     path: 'about',
-    loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule)
+    loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule),
   },
   {
     path: 'contact',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
   },
+  {
+    path: 'admin',
+    canActivate: [AuthGuard, AdminGuard],
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+  },
+  {
+    path: 'login',
+    redirectTo: 'auth/login',
+    pathMatch: 'full',
+  },
+  { path: 'courses', loadChildren: () => import('./admin/pages/courses/courses.module').then(m => m.CoursesModule) },
 ];
 
 @NgModule({
