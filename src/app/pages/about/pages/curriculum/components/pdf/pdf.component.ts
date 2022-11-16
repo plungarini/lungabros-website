@@ -1,5 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { Curriculum, Specs, Story } from '../../models/curriculum.model';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Curriculum } from '../../models/curriculum.model';
 
 
 
@@ -15,13 +15,14 @@ import { Curriculum, Specs, Story } from '../../models/curriculum.model';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PdfComponent implements AfterViewInit, OnDestroy {
-  @Output() loaded: EventEmitter<void> = new EventEmitter<void>();
+export class PdfComponent implements AfterViewInit {
+  @Output() public loaded: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('cv') cvElement: ElementRef<HTMLDivElement> | undefined;
   cvElementLoaded = false;
 
   @Input('curriculum') set setCurriculum(value: Curriculum | undefined) {
+    if (!value) return;
     this.curriculum = value;
     this.cdRef.detectChanges();
     if (this.cvElementLoaded) this.loaded.emit();
@@ -41,9 +42,6 @@ export class PdfComponent implements AfterViewInit, OnDestroy {
       if (!this.curriculum) return;
       this.loaded.emit();
     }
-  }
-
-  ngOnDestroy(): void {
   }
 
   normMonth(id: number): string {

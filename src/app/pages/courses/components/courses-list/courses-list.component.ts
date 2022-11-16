@@ -40,7 +40,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
 
     this.courseSub = this.db.getCol<Course>('courses').subscribe((courses) => {
       this.courseLoaded = true;
-      this.courseList = this.sortCourses(courses);
+      this.courseList = this.sortCourses(courses.filter((c) => !c.hide));
       this.filterSidebar(this.filters);
     });
 
@@ -79,14 +79,19 @@ export class CoursesListComponent implements OnInit, OnDestroy {
           : incl(c, 'three') ? 3
           : incl(c, 'four') ? 4
           : 5
-        ) : incl(c, 'specialty') ? 6
-        : incl(c, 'junior') ? 7
-        : incl(c, 'kids') ? 8
-        : 9;
+        ) : incl(c, 'experience') ? 6
+        : incl(c, 'specialty') ? 7
+        : incl(c, 'junior') ? 8
+        : incl(c, 'kids') ? 9
+        : 10;
       };
       return normCat(a) - normCat(b);
     });
     return arr;
+  }
+
+  trackBy(i: number, item: Course): string {
+    return item.id;
   }
 
   clearFilters(): void {

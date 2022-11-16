@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Curriculum } from '../../models/curriculum.model';
 
 @Component({
   selector: 'app-short-desc',
@@ -16,6 +17,7 @@ export class ShortDescComponent implements OnInit {
 
   @Input() desc: string = '';
   @Input() name: string = '';
+  @Input() socials: Curriculum['specs']['socials'] = [];
 
   constructor() { }
 

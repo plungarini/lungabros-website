@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Timestamp } from '@angular/fire/firestore';
 import { Specs, Story } from '../../models/curriculum.model';
 
 @Component({

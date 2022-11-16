@@ -36,8 +36,8 @@
                   </div>
                   <p class="relative z-10 mt-2 text-sm text-zinc-400" [innerHtml]="item.desc"></p>
                 </div>
-                <time *ngIf="item.time as t" class="mt-1 block relative z-10 order-first mb-3 text-sm text-zinc-400" [attr.datetime]="t.getFullYear() + '-' + t.getMonth() + '-' + t.getDate()">
-                  {{normMonth(t.getMonth()) + t.getFullYear()}}
+                <time *ngIf="item.time as t" class="mt-1 block relative z-10 order-first mb-3 text-sm text-zinc-400" [attr.datetime]="t.toDate().getFullYear() + '-' + t.toDate().getMonth() + '-' + t.toDate().getDate()">
+                  {{normMonth(t.toDate().getMonth()) + t.toDate().getFullYear()}}
                 </time>
               </article>
             </ng-container>

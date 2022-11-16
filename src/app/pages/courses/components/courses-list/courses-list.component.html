@@ -65,9 +65,9 @@
       </ng-container>
     </div>
     <ng-container *ngIf="courseLoaded">
-      <ng-container *ngIf="filteredCourses.length > 0; else noResults">
+      <ng-container *ngIf="filteredCourses.length > 0; else noResults;">
         <div class="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <ng-container *ngFor="let course of filteredCourses | paginate: page : itemsPerPage; let i = index">
+          <ng-container *ngFor="let course of filteredCourses | paginate: page : itemsPerPage; let i = index; trackBy: trackBy">
             <ng-container *ngIf="!isMobile || i < (mobileCourseCount)">
               <app-course-card [course]="course"></app-course-card>
             </ng-container>

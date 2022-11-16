@@ -1,7 +1,9 @@
+import { Timestamp } from "@angular/fire/firestore";
+
 export interface Story {
   title: string;
   desc: string;
-  time: Date;
+  time?: Timestamp;
   isWorkingExperience: boolean;
 }
 
@@ -19,6 +21,7 @@ export interface Specs {
 }
 
 export interface Certification {
+  id: string;
   title: string;
   priority?: number;
   isPro: boolean;
@@ -36,6 +39,7 @@ interface Social {
 
 export interface Curriculum {
   name: string;
+  birthday: Timestamp;
   desc: string;
   stories: Story[];
   specs: Specs;

@@ -28,6 +28,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     main: new FormControl(false),
     specialty: new FormControl(false),
     withDives: new FormControl(false),
+    experience: new FormControl(false),
     dry: new FormControl(false),
   });
   formSub: Subscription | undefined;
@@ -44,6 +45,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
           { name: 'main', enabled: normBool(this.form.value.main) },
           { name: 'specialty', enabled: normBool(this.form.value.specialty) },
           { name: 'withDives', enabled: normBool(this.form.value.withDives) },
+          { name: 'experience', enabled: normBool(this.form.value.experience) },
           { name: 'dry', enabled: normBool(this.form.value.dry) },
         ]
       });

@@ -16,16 +16,16 @@
                   <span class="relative z-10">{{item.title}}</span>
                 </p>
               </div>
-              <time *ngIf="item.time as t" class="md:hidden relative z-10 order-first mb-3 flex items-center text-sm text-zinc-500 pl-3.5" [attr.datetime]="t.getFullYear() + '-' + t.getMonth() + '-' + t.getDate()">
+              <time *ngIf="item.time as t" class="md:hidden relative z-10 order-first mb-3 flex items-center text-sm text-zinc-500 pl-3.5" [attr.datetime]="t.toDate().getFullYear() + '-' + t.toDate().getMonth() + '-' + t.toDate().getDate()">
                 <span class="absolute inset-y-0 left-0 flex items-center" aria-hidden="true">
                   <span class="h-4 w-0.5 rounded-full bg-zinc-500"></span>
                 </span>
-                {{normMonth(t.getMonth()) + t.getFullYear()}}
+                {{normMonth(t.toDate().getMonth()) + t.toDate().getFullYear()}}
               </time>
               <p class="relative z-10 mt-2 text-sm text-zinc-400" [innerHtml]="item.desc"></p>
             </div>
-            <time *ngIf="item.time as t" class="mt-1 hidden md:block relative z-10 order-first mb-3 text-sm text-zinc-500" [attr.datetime]="t.getFullYear() + '-' + t.getMonth() + '-' + t.getDate()">
-              {{normMonth(t.getMonth()) + t.getFullYear()}}
+            <time *ngIf="item.time as t" class="mt-1 hidden md:block relative z-10 order-first mb-3 text-sm text-zinc-500" [attr.datetime]="t.toDate().getFullYear() + '-' + t.toDate().getMonth() + '-' + t.toDate().getDate()">
+              {{normMonth(t.toDate().getMonth()) + t.toDate().getFullYear()}}
             </time>
           </article>
         </ng-container>

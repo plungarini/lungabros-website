@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PietroRoutingModule } from './pietro-routing.module';
-import { PietroComponent } from './pietro.component';
+import { CurriculumRoutingModule } from './curriculum-routing.module';
+import { CurriculumComponent } from './curriculum.component';
 import { ImgixAngularModule } from '@imgix/angular';
 import { HeaderComponent } from './components/header/header.component';
 import { ShortDescComponent } from './components/short-desc/short-desc.component';
@@ -14,7 +14,7 @@ import { PdfComponent } from './components/pdf/pdf.component';
 
 @NgModule({
   declarations: [
-    PietroComponent,
+    CurriculumComponent,
     HeaderComponent,
     ShortDescComponent,
     BannerComponent,
@@ -24,8 +24,8 @@ import { PdfComponent } from './components/pdf/pdf.component';
   ],
   imports: [
     CommonModule,
-    PietroRoutingModule,
+    CurriculumRoutingModule,
     ImgixAngularModule,
   ]
 })
-export class PietroModule { }
+export class CurriculumModule { }

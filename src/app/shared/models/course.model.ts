@@ -1,5 +1,6 @@
 export interface Course {
   id: string;
+  hide: boolean;
   title: string;
   bgImg: string;
   price: number;
