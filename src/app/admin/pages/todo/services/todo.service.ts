@@ -39,8 +39,8 @@ export class TodoService {
     this.db.upsert<TodoTask>(`tasks/${id}`, { completed: value });
   };
 
-  deleteTask(id: string): void {
-    this.db.delete(`tasks/${id}`);
+  deleteTask(id: string): Promise<void> {
+    return this.db.delete(`tasks/${id}`);
   }
 
   readNewTasks(tasks: TodoTask[], uid: string): void {

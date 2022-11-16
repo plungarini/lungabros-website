@@ -98,7 +98,9 @@ export class TodoComponent implements OnInit, OnDestroy {
     this.todoService.completeTask(id, !item.completed);
   };
 
-  deleteTask(id: string): void {
+  deleteTask(id: string, event?: MouseEvent): void {
+    event?.preventDefault();
+    event?.stopPropagation();
     this.todoService.deleteTask(id);
   }
 

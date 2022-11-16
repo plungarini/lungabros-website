@@ -39,7 +39,6 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     this.dbConnection = this.tasksService.getUnreadedTasksCount()
       .subscribe(tasksCount => {
-        console.log('tasksCount', tasksCount)
         this.tasksCount = tasksCount;
         this.cdRef.detectChanges();
       });
