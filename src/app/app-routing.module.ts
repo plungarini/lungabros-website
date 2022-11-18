@@ -34,7 +34,6 @@ const routes: Routes = [
     redirectTo: 'auth/login',
     pathMatch: 'full',
   },
-  { path: 'courses', loadChildren: () => import('./admin/pages/courses/courses.module').then(m => m.CoursesModule) },
 ];
 
 @NgModule({

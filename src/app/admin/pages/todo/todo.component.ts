@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { Subscription, switchMap } from 'rxjs';
 import { UsersService } from 'src/app/auth/services/users.service';
@@ -13,13 +22,13 @@ import { TodoService } from './services/todo.service';
       :host {
         display: block;
       }
-    `
+    `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoComponent implements OnInit, OnDestroy {
-
-  @ViewChildren('tasks') tasksElList: QueryList<ElementRef<HTMLDivElement>> = new QueryList<ElementRef>();
+  @ViewChildren('tasks') tasksElList: QueryList<ElementRef<HTMLDivElement>> =
+    new QueryList<ElementRef>();
 
   tasks: TodoTask[] = [];
 
@@ -30,21 +39,24 @@ export class TodoComponent implements OnInit, OnDestroy {
     private db: FirebaseExtendedService,
     private usersService: UsersService,
     private todoService: TodoService,
-    private cdRef: ChangeDetectorRef,
-  ) { }
+    private cdRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.dbConnection = this.usersService.getCurrentUserDb().pipe(
-      switchMap(user => {
-        this.userId = user?.id || '';
-        return this.db.getCol<TodoTask>('tasks');
-      })
-    ).subscribe(t => {
-      this.tasks = t;
-      this.sortTasks();
-      this.cdRef.detectChanges();
-      this.todoService.readNewTasks(t, this.userId);
-    });
+    this.dbConnection = this.usersService
+      .getCurrentUserDb()
+      .pipe(
+        switchMap((user) => {
+          this.userId = user?.id || '';
+          return this.db.getCol<TodoTask>('tasks');
+        })
+      )
+      .subscribe((t) => {
+        this.tasks = t;
+        this.sortTasks();
+        this.cdRef.detectChanges();
+        this.todoService.readNewTasks(t, this.userId);
+      });
   }
 
   ngOnDestroy(): void {
@@ -64,7 +76,7 @@ export class TodoComponent implements OnInit, OnDestroy {
       value: '',
       completed: false,
       priority: 1,
-      readBy: [this.userId]
+      readBy: [this.userId],
     });
     this.sortTasks();
     this.cdRef.detectChanges();
@@ -85,18 +97,18 @@ export class TodoComponent implements OnInit, OnDestroy {
   saveTask(task: TodoTask, newValue: string): void {
     if (!newValue) {
       this.todoService.deleteTask(task.id);
-      const i = this.tasks.findIndex(t => t.id === task.id);
+      const i = this.tasks.findIndex((t) => t.id === task.id);
       this.tasks.splice(i, 1);
       return;
-    };
-    this.todoService.saveTask({...task, value: newValue});
+    }
+    this.todoService.saveTask({ ...task, value: newValue });
   }
 
   completeTask(id: string): void {
-    const item = this.tasks.find(t => t.id === id);
+    const item = this.tasks.find((t) => t.id === id);
     if (!item) return;
     this.todoService.completeTask(id, !item.completed);
-  };
+  }
 
   deleteTask(id: string, event?: MouseEvent): void {
     event?.preventDefault();
@@ -109,16 +121,17 @@ export class TodoComponent implements OnInit, OnDestroy {
   }
 
   get nonCompletedTasks(): TodoTask[] {
-    return this.tasks.filter(t => !t.completed);
+    return this.tasks.filter((t) => !t.completed);
   }
   get completedTasks(): TodoTask[] {
-    return this.tasks.filter(t => t.completed);
+    return this.tasks.filter((t) => t.completed);
   }
 
   private sortTasks(): void {
-    this.tasks = this.tasks.sort((a, b) => (
-      (b.createdAt?.toDate() || new Date()).getTime() - (a.createdAt?.toDate() || new Date()).getTime()
-    ));
+    this.tasks = this.tasks.sort(
+      (a, b) =>
+        (b.createdAt?.toDate() || new Date()).getTime() -
+        (a.createdAt?.toDate() || new Date()).getTime()
+    );
   }
-
 }

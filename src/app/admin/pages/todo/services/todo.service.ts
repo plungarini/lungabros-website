@@ -6,28 +6,27 @@ import { FirebaseExtendedService } from 'src/app/shared/services/firebase-extend
 import { TodoTask } from '../models/todo.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TodoService {
-
   constructor(
     private db: FirebaseExtendedService,
     private usersService: UsersService
-  ) { }
+  ) {}
 
   getUnreadedTasksCount(): Observable<number> {
     return this.usersService.getCurrentFire().pipe(
-      switchMap(user => {
+      switchMap((user) => {
         if (!user) return of(0);
-        return this.db.getCol<TodoTask>(
-          'tasks',
-          'id',
-          where('readBy', 'not-in', [[user.uid]]
-        )).pipe(
-          map((t) => t.length),
-        )
+        return this.db
+          .getCol<TodoTask>(
+            'tasks',
+            'id',
+            where('readBy', 'not-in', [[user.uid]])
+          )
+          .pipe(map((t) => t.length));
       })
-    )
+    );
   }
 
   saveTask(task: TodoTask): void {
@@ -37,7 +36,7 @@ export class TodoService {
 
   completeTask(id: string, value: boolean): void {
     this.db.upsert<TodoTask>(`tasks/${id}`, { completed: value });
-  };
+  }
 
   deleteTask(id: string): Promise<void> {
     return this.db.delete(`tasks/${id}`);

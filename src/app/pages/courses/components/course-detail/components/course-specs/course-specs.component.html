@@ -6,7 +6,7 @@
   </div>
   <div *ngIf="specs.time" class="grid grid-cols-2">
     <p class="font-bold">Durata del corso:</p>
-    <p>~{{specs.time}} giorni</p>
+    <p>~{{specs.time.time}} {{specs.time.unit === 'hours' ? 'ore' : 'giorni'}}</p>
   </div>
   <div *ngIf="specs.dives" class="grid grid-cols-2">
     <p class="font-bold">Immersioni:</p>

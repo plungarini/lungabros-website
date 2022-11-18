@@ -7,9 +7,9 @@
     <div class="relative px-6 pb-4 z-20 -mt-12">
       <h3 class="text-4xl">PADI® eLearning</h3>
       <p [innerHtml]="course.howToLearn.eLearning"></p>
-      <ul>
+      <ul *ngIf="course.specs.specs as s">
         <li>
-          <p>- <b>Tempo di studio:</b> ~{{ course.specs.specs.elearningTime }} ore</p>
+          <p>- <b>Tempo di studio:</b> ~{{ s.elearningTime.time }} {{s.elearningTime.unit === 'days' ? 'giorni' : 'ore'}}</p>
         </li>
       </ul>
       <button class="flex flex-row items-center text-indigo-400 border-b-2 border-zinc-900 hover:border-indigo-400 mt-4 transition-all duration-200">
@@ -33,7 +33,7 @@
           <p>- <b>Prerequisiti:</b> {{ specs.pre }}</p>
         </li>
         <li *ngIf="specs.time">
-          <p>- <b>Tempo totale del corso:</b> ~{{ specs.time }} giorni</p>
+          <p>- <b>Tempo totale del corso:</b> ~{{ specs.time.time }} {{specs.time.unit === 'hours' ? 'ore' : 'giorni'}}</p>
         </li>
         <li *ngIf="specs.age">
           <p>- <b>Età minima:</b> {{ specs.age }} anni</p>

@@ -1,9 +1,16 @@
+import { Timestamp } from "@angular/fire/firestore";
+
+interface CourseTime {
+  time: string;
+  unit: 'hours' | 'days';
+}
+
 export interface Course {
   id: string;
   hide: boolean;
   title: string;
   bgImg: string;
-  price: number;
+  price?: number;
   shortDesc: string;
   category: string[];
   desc: string;
@@ -14,11 +21,11 @@ export interface Course {
   };
   specs: {
     specs: {
-      time: string;
-      elearningTime: string;
-      dives: number;
-      depth: number;
-      age: number;
+      time: CourseTime;
+      elearningTime: CourseTime;
+      dives?: number;
+      depth?: number;
+      age?: number;
       pre: string;
     },
     foryou: string[];
@@ -27,4 +34,6 @@ export interface Course {
   courseAdvice?: string[];
   suggestedCourse?: string[];
   gallery: string[];
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }

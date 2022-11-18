@@ -1,4 +1,4 @@
-import { Timestamp } from "@angular/fire/firestore";
+import { Timestamp } from '@angular/fire/firestore';
 
 export type TodoTask = {
   id: string;
@@ -7,5 +7,5 @@ export type TodoTask = {
   completed: boolean;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
-  readBy: string[]
-}
+  readBy: string[];
+};

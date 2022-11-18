@@ -10,7 +10,6 @@ import { TodoService } from './pages/todo/services/todo.service';
   styles: [],
 })
 export class AdminComponent implements OnInit, OnDestroy {
-
   tasksCount = 0;
 
   routerSub: Subscription | undefined;
@@ -21,15 +20,13 @@ export class AdminComponent implements OnInit, OnDestroy {
     private router: Router,
     private tasksService: TodoService,
     private cdRef: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.pageTitle.setTitle(`LUNGABROS | Admin Panel`);
     this.routerSub = this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationStart),
-      )
-      .subscribe(e => {
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((e) => {
         if (e instanceof NavigationStart) {
           if (e.url.includes('admin')) {
             this.pageTitle.setTitle(`LUNGABROS | Admin Panel`);
@@ -37,8 +34,9 @@ export class AdminComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.dbConnection = this.tasksService.getUnreadedTasksCount()
-      .subscribe(tasksCount => {
+    this.dbConnection = this.tasksService
+      .getUnreadedTasksCount()
+      .subscribe((tasksCount) => {
         this.tasksCount = tasksCount;
         this.cdRef.detectChanges();
       });
@@ -48,5 +46,4 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.routerSub?.unsubscribe();
     this.dbConnection?.unsubscribe();
   }
-
 }

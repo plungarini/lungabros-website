@@ -23,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'cv',
-        component: TodoComponent,
+        loadChildren: () => import('./pages/curriculum/curriculum.module').then(m => m.CurriculumModule),
       },
     ],
   },
