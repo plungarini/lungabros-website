@@ -58,6 +58,14 @@ export class CoursesComponent implements OnInit, OnDestroy {
     return `${day} ${month}, ${year}`;
   }
 
+  formatDateMobile(date?: Timestamp): string {
+    if (!date) return '';
+    const month = this.normMonth(date.toDate().getMonth());
+    const day = date.toDate().getDate();
+    const year = date.toDate().getFullYear().toString().slice(2);
+    return `${month}, ${year}`;
+  }
+
   formatCategories(cat: Course['category']): string {
     const normCats: string[] = [];
     cat.forEach(c => {

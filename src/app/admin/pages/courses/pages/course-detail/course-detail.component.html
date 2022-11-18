@@ -1,7 +1,16 @@
-<h3 *ngIf="!!course">Modifica il corso</h3>
-<h3 *ngIf="!course">Inserisci un nuovo corso</h3>
+<div class="flex flex-col gap-2 md:flex-row md:items-end md:gap-4">
+  <h3 *ngIf="!!course" class="mb-0 mt-0">Modifica il corso</h3>
+  <h3 *ngIf="!course" class="mb-0 mt-0">Inserisci un nuovo corso</h3>
 
-<form [formGroup]="form" (submit)="submitForm()" class="mt-6 w-full">
+  <p *ngIf="course?.draft" class="mb-0.5 mt-0 text-sm text-zinc-500">
+    (Stai guardando una bozza,
+    <a class="cursor-pointer text-sm text-indigo-200" (click)="deleteDraft()"
+      >ripristina originale</a
+    >)
+  </p>
+</div>
+
+<form [formGroup]="form" class="mt-8 w-full">
   <div class="flex w-full flex-1 flex-col gap-4">
     <div class="flex flex-1 flex-col items-start gap-4 md:flex-row">
       <div class="w-full flex-1">
@@ -30,7 +39,7 @@
           aria-autocomplete="none"
         />
       </div>
-      <div class="w-full flex-1">
+      <div *ngIf="false" class="w-full flex-1">
         <label for="id">Stato</label>
         <div class="flex flex-row items-center">
           <button
@@ -43,7 +52,7 @@
             }"
             class="cursor-pointer rounded-l-md px-4 py-2 ring-amber-500 transition-all duration-300"
           >
-            Bozza
+            Nascondi
           </button>
           <button
             type="button"
@@ -442,16 +451,17 @@
       <div
         class="mb-4"
         #comboboxContainer
-        (focusout)="filterSuggestedCourse('', search)"
       >
         <div class="group relative mt-1">
           <input
             #search
+            (focus)="filterSuggestedCourse('', search)"
             (input)="filterSuggestedCourse(search.value)"
             id="combobox-{{ path }}"
             type="text"
             role="combobox"
-            [attr.aria-controls]="'options-{{path}}'"
+            placeholder="Cerca un corso..."
+            [attr.aria-controls]="'options-' + path"
           />
           <button
             type="button"
@@ -584,7 +594,11 @@
     </div>
   </div>
 
-  <h3 class="mt-6 mb-6">Galleria immagini</h3>
+  <h3 class="mt-6">Galleria immagini</h3>
+  <label class="pb-6"
+    >Clicca sull'icona blu sopra le immagini caricate per impostare la cover del
+    corso.</label
+  >
   <div class="flex w-full flex-1 flex-col gap-4">
     <div class="block w-full">
       <input
@@ -597,14 +611,13 @@
         multiple
         accept="image/*"
       />
-      <label
-        dragNdrop
-        (files)="fileDrop($event)"
-        for="fileDropper"
-        class="no-style block cursor-pointer"
-      >
+      <label for="fileDropper" class="no-style block cursor-pointer">
         <div
-          class="relative block w-full rounded-lg border-2 border-dashed border-zinc-300 p-12 text-center hover:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          dragNdrop
+          (files)="fileDrop($event)"
+          [classesDrag]="['border-zinc-100', 'bg-zinc-800']"
+          [classesNorm]="['border-zinc-400', 'bg-zinc-900']"
+          class="relative block w-full rounded-lg border-2 border-dashed border-zinc-400 p-12 text-center hover:border-zinc-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -626,15 +639,34 @@
         </div>
       </label>
       <ul class="mt-4 flex w-full flex-row flex-wrap gap-2">
-        <li *ngFor="let img of form.get('gallery')?.value; let i = index">
+        <li *ngFor="let img of gallery; let i = index">
           <div
-            class="group relative w-28 shadow-lg transition-all duration-300 md:scale-95 md:hover:scale-100"
+            [ngClass]="{
+              'ring-2 md:scale-100': isGalleryImageCover(i),
+              'ring-0 md:scale-95': !isGalleryImageCover(i)
+            }"
+            class="group relative w-28 rounded-md shadow-lg ring-0 ring-indigo-500 transition-all duration-300 md:scale-95 md:hover:scale-100"
           >
             <svg
+              *ngIf="!isGalleryImageCover(i)"
+              (click)="setCoverImage(i)"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              class="absolute top-1 right-1 h-5 w-5 cursor-pointer rounded-full bg-white/80 py-0.5 px-0.5 text-red-500 backdrop-blur transition-all duration-300 hover:bg-white hover:text-red-400 md:opacity-0 md:group-hover:opacity-100"
+              class="absolute top-1 left-1 z-10 h-5 w-5 cursor-pointer rounded-full bg-white/80 py-1 px-1 text-indigo-500 backdrop-blur transition-all duration-300 hover:bg-white hover:text-indigo-400 md:opacity-0 md:group-hover:opacity-100"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <svg
+              (click)="deleteUploadImage(i)"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="absolute top-1 right-1 z-10 h-5 w-5 cursor-pointer rounded-full bg-white/80 py-0.5 px-0.5 text-red-500 backdrop-blur transition-all duration-300 hover:bg-white hover:text-red-400 md:opacity-0 md:group-hover:opacity-100"
             >
               <path
                 fill-rule="evenodd"
@@ -653,14 +685,32 @@
         </li>
         <li *ngFor="let file of fileDropper.value; let i = index">
           <div
-            class="group relative w-28 shadow-lg transition-all duration-300 md:scale-95 md:hover:scale-100"
+            [ngClass]="{
+              'ring-2 md:scale-100': file.isCover,
+              'ring-0 md:scale-95': !file.isCover
+            }"
+            class="group relative w-28 rounded-md shadow-lg ring-0 ring-indigo-500 transition-all duration-300 md:scale-95 md:hover:scale-100"
           >
+            <svg
+              *ngIf="!file.isCover"
+              (click)="setUploadCoverImage(i)"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="absolute top-1 left-1 z-10 h-5 w-5 cursor-pointer rounded-full bg-white/80 py-1 px-0.5 text-indigo-500 backdrop-blur transition-all duration-300 hover:bg-white hover:text-indigo-400 md:opacity-0 md:group-hover:opacity-100"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
+                clip-rule="evenodd"
+              />
+            </svg>
             <svg
               (click)="deleteGalleryImage(i)"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              class="absolute top-1 right-1 h-5 w-5 cursor-pointer rounded-full bg-white/80 py-0.5 px-0.5 text-red-500 backdrop-blur transition-all duration-300 hover:bg-white hover:text-red-400 md:opacity-0 md:group-hover:opacity-100"
+              class="absolute top-1 right-1 z-10 h-5 w-5 cursor-pointer rounded-full bg-white/80 py-0.5 px-0.5 text-red-500 backdrop-blur transition-all duration-300 hover:bg-white hover:text-red-400 md:opacity-0 md:group-hover:opacity-100"
             >
               <path
                 fill-rule="evenodd"
@@ -677,5 +727,22 @@
         </li>
       </ul>
     </div>
+  </div>
+
+  <div class="mt-10 flex w-full flex-col gap-4 md:ml-auto md:w-max md:flex-row">
+    <button
+      [disabled]="isEqualCourse && form.value.hide"
+      (click)="submitForm('draft')"
+      class="w-full cursor-pointer rounded-md border-2 border-amber-500 bg-amber-500/0 px-4 py-2 font-semibold text-zinc-300 ring-amber-300 ring-offset-1 ring-offset-zinc-900 transition-all duration-300 hover:border-transparent hover:bg-amber-400/20 hover:ring-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-amber-500 disabled:hover:bg-amber-500/0 disabled:hover:ring-0 md:w-max"
+    >
+      Salva come bozza
+    </button>
+    <button
+      [disabled]="isEqualCourse && !form.value.hide"
+      (click)="submitForm('publish')"
+      class="w-full cursor-pointer rounded-md border-2 border-teal-500 bg-teal-500 px-4 py-2 font-semibold text-zinc-900 ring-teal-300 ring-offset-1 ring-offset-zinc-900 transition-all duration-300 hover:border-teal-400 hover:bg-teal-400 hover:ring-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-teal-400 disabled:hover:bg-teal-500 disabled:hover:ring-0 md:w-max"
+    >
+      Salva e pubblica il corso
+    </button>
   </div>
 </form>

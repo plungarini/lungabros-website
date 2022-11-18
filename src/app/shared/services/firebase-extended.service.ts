@@ -45,6 +45,12 @@ export class FirebaseExtendedService {
     return ref.id;
   }
 
+  async docExists(path: string): Promise<boolean> {
+    const docRef = doc(this.firestore, path);
+    const exist = (await getDoc(docRef)).exists();
+    return exist;
+  }
+
   async upsert<T>(path: string, obj: Partial<T>): Promise<void> {
     if (!path) return;
 

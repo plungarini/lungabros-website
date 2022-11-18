@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import { Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 export interface FileHandle {
@@ -12,26 +12,30 @@ export interface FileHandle {
 })
 export class DragNdropDirective {
 
+  @HostBinding('class') classes = 'transition-all duration-300';
+
   @Output() files: EventEmitter<FileHandle[]> = new EventEmitter();
+  @Input() classesDrag: string[] = [];
+  @Input() classesNorm: string[] = [];
 
   constructor(private sanitizer: DomSanitizer) { }
 
   @HostListener("dragover", ["$event"]) public onDragOver(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
-    // ADD CLASSES
+    this.classes = this.classesDrag.join(' ') + ' transition-all duration-300';
   }
 
   @HostListener("dragleave", ["$event"]) public onDragLeave(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
-    // ADD ORIGINAL CLASSES
+    this.classes = this.classesNorm.join(' ') + ' transition-all duration-300';
   }
 
   @HostListener('drop', ['$event']) public onDrop(evt: DragEvent) {
     evt.preventDefault();
     evt.stopPropagation();
-    // ADD ORIGINAL CLASSES
+    this.classes = this.classesNorm.join(' ') + ' transition-all duration-300';
   
     let files: FileHandle[] = [];
     if (!evt.dataTransfer) return;

@@ -5,6 +5,11 @@ interface CourseTime {
   unit: 'hours' | 'days';
 }
 
+type DraftDetails = {
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
+}
+
 export interface Course {
   id: string;
   hide: boolean;
@@ -36,4 +41,5 @@ export interface Course {
   gallery: string[];
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
+  draft?: DraftDetails;
 }

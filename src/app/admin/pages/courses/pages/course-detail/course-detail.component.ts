@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { Timestamp } from '@angular/fire/firestore';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -12,6 +13,9 @@ import { Subscription, take } from 'rxjs';
 import { Course } from 'src/app/shared/models/course.model';
 import { FirebaseExtendedService } from 'src/app/shared/services/firebase-extended.service';
 import { FileHandle } from './pipes/drag-ndrop.directive';
+import { isEqual } from 'lodash';
+import { CourseFormService } from './services/course-form.service';
+
 
 @Component({
   selector: 'app-course-detail',
@@ -20,7 +24,7 @@ import { FileHandle } from './pipes/drag-ndrop.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourseDetailComponent implements OnInit, OnDestroy {
-  course: Course | undefined;
+  course: Partial<Course> | undefined;
   allCourses: {
     id: string;
     title: string;
@@ -41,19 +45,21 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
   dbConnection: Subscription | undefined;
 
-  fileDropper = new FormControl<FileHandle[]>([]);
+  fileDropper = new FormControl<FileHandle[]>([], { nonNullable: true });
 
   form = new FormGroup({
-    id: new FormControl<string>('PADI® NOME_DEL_CORSO', [Validators.required]),
+    id: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     hide: new FormControl<boolean>(true),
-    title: new FormControl<string>('', [Validators.required]),
+    title: new FormControl<string>('PADI® NOME_DEL_CORSO', [
+      Validators.required,
+    ]),
     bgImg: new FormControl<string>('', [Validators.required]),
     shortDesc: new FormControl<string>('', [Validators.required]),
-    category: new FormControl<string[]>([]),
+    category: new FormControl<string[]>([], { nonNullable: true }),
     desc: new FormControl<string>('', [Validators.required]),
     howToCert: new FormControl<string>('', [Validators.required]),
-    courseAdvice: new FormControl<string[]>([], [Validators.required]),
-    suggestedCourse: new FormControl<string[]>([], [Validators.required]),
+    courseAdvice: new FormControl<string[]>([], { nonNullable: true }),
+    suggestedCourse: new FormControl<string[]>([], { nonNullable: true }),
     gallery: new FormControl<string[]>([], [Validators.required]),
     howToLearn: new FormGroup({
       eLearning: new FormControl<string>('', [Validators.required]),
@@ -85,12 +91,15 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
         pre: new FormControl<string>('', [Validators.required]),
       }),
     }),
-  });
+    createdAt: new FormControl<Timestamp | undefined>(undefined),
+    updatedAt: new FormControl<Timestamp | undefined>(undefined),
+  }, { updateOn: 'blur' });
 
   constructor(
     private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
     private db: FirebaseExtendedService,
+    private courseFormService: CourseFormService,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -106,12 +115,17 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       .subscribe((courses) => {
         this.allCourses = courses.map((c) => ({ id: c.id, title: c.title }));
         this.filteredCourses = this.allCourses;
+        this.form.markAllAsTouched();
         this.cdRef.detectChanges();
       });
   }
 
   ngOnDestroy(): void {
     this.dbConnection?.unsubscribe();
+  }
+
+  deleteDraft(): void {
+    this.courseFormService.deleteDraft(this.form.value.id);
   }
 
   fileDrop(event: FileHandle[], fileEvent?: Event): void {
@@ -121,27 +135,72 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       for (let i = 0; i < files.length; i++) {
         arr.push({
           file: files[i],
-          url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(files[i])),
+          url: this.sanitizer.bypassSecurityTrustUrl(
+            window.URL.createObjectURL(files[i])
+          ),
           isCover: false,
         });
       }
       return arr;
     };
-    const files = fileEvent ?
-      mapFiles((fileEvent.target as HTMLInputElement).files) :
-      event.filter(f => f.file.type.includes('image'));
+    const files = fileEvent
+      ? mapFiles((fileEvent.target as HTMLInputElement).files)
+      : event.filter((f) => f.file.type.includes('image'));
     if (!files || files?.length <= 0) return;
     const res = this.fileDropper.value;
-    if (!res || res.length <= 0) {
-      this.fileDropper.setValue([...files]);
-      return;
+    files.forEach((f) => {
+      res.push(f);
+      const gallery = this.form.get('gallery') as FormControl<string[]>;
+      gallery.patchValue([f.file.name, ...gallery.value]);
+      this.cdRef.detectChanges();
+    });
+  }
+
+  deleteUploadImage(index: number): void {
+    if (this.fileDropper.value?.at(index)?.isCover) {
+      this.form.get('bgImg')?.patchValue('');
     }
-    files?.forEach(f => res.push(f));
+    this.fileDropper.value?.splice(index, 1);
+    this.cdRef.detectChanges();
   }
 
   deleteGalleryImage(index: number): void {
-    this.fileDropper.value?.splice(index, 1);
+    if (this.isGalleryImageCover(index)) {
+      this.form.get('bgImg')?.patchValue('');
+    }
+    this.form.get('gallery')?.value?.splice(index, 1);
     this.cdRef.detectChanges();
+  }
+
+  setCoverImage(index: number): void {
+    const url = this.gallery.at(index);
+    if (!url) return;
+    this.fileDropper.value?.forEach((e) => (e.isCover = false));
+    this.form.get('bgImg')?.patchValue(url);
+    this.cdRef.detectChanges();
+  }
+
+  setUploadCoverImage(index: number): void {
+    const file = this.fileDropper.value?.at(index);
+    if (!file) return;
+    this.fileDropper.value?.forEach((e) => (e.isCover = false));
+    file.isCover = true;
+    this.form.get('bgImg')?.patchValue(file.file.name);
+    this.cdRef.detectChanges();
+  }
+
+  isGalleryImageCover(index: number): boolean {
+    const url = this.gallery.at(index);
+    if (!url) return false;
+    return this.form.get('bgImg')?.value === url;
+  }
+
+  get gallery(): string[] {
+    return (this.form.get('gallery') as FormControl<string[]>)?.value?.filter(img => img.includes('/'));
+  }
+
+  get isEqualCourse(): boolean {
+    return isEqual(this.form.value, this.course);
   }
 
   get publishCourse(): boolean {
@@ -161,6 +220,10 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   }
   get suggestedCourses(): string[] {
     return this.form.get('suggestedCourse')?.value || [];
+  }
+
+  get canPublishCourse(): boolean {
+    return this.form.valid && !this.form.get('hide')?.value;
   }
 
   setPublishStatus(value: boolean) {
@@ -215,9 +278,9 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       return this.removeSuggestedCourse(item, path);
 
     const arr =
-      this.form.get(path === 'suggest' ? 'suggestedCourse' : 'courseAdvice')
-        ?.value || [];
-    arr.push(item);
+      (this.form.get(path === 'suggest' ? 'suggestedCourse' : 'courseAdvice')) as FormControl<string[]>;
+    if (!arr) return;
+    arr.patchValue([item, ...arr.value]);
     this.cdRef.detectChanges();
   }
 
@@ -239,8 +302,9 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   selectCategory(cat: string): void {
     if (this.isCatSelected(cat)) return;
     const currentCats =
-      (this.form.get('category') as FormControl<string[]>)?.value || [];
-    currentCats.push(cat);
+      (this.form.get('category') as FormControl<string[]>);
+    if (!currentCats) return;
+    currentCats.patchValue([cat, ...currentCats.value]);
     this.cdRef.detectChanges();
   }
 
@@ -281,29 +345,68 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  submitForm(): void {
-    console.log(this.form.value);
+  submitForm(status: 'draft' | 'publish'): void {
+    if (
+      (this.isEqualCourse && status === 'draft' && this.form.value.hide) ||
+      (this.isEqualCourse && status === 'publish' && !this.form.value.hide)
+  ) return;
+    console.log('Saving form...');
+
+    const findInvalidControls = () => {
+      const invalid = [];
+      const controls = this.form.controls;
+      for (const name in controls) {
+        if ((controls as any)[name].invalid) {
+          invalid.push(name);
+        }
+      }
+      return invalid;
+    };
+    const invalid = findInvalidControls();
+    if (
+      invalid.length > 0 &&
+      status === 'draft' &&
+      !!this.form.get('id')?.value
+    ) {
+      this.courseFormService.saveCourse(
+        this.form.value as Partial<Course>,
+        status,
+        this.course,
+        this.fileDropper.value
+      );
+    } else if (invalid.length <= 0) {
+      this.courseFormService.saveCourse(
+        this.form.value as Partial<Course>,
+        status,
+        this.course,
+        this.fileDropper.value
+      );
+    } else {
+      console.warn('Devi cambiare stato in Bozza o aggiornare campi', invalid);
+    }
   }
 
-  private normCourse(course: Course): Course {
-    const gallery = course.gallery.sort((a, b) => {
+  private normCourse(course: Partial<Course>): Partial<Course> {
+    const gallery = course?.gallery?.sort((a, b) => {
       const normA = parseFloat(a.replace(/(?:[^0-9]*)/g, ''));
       const normB = parseFloat(b.replace(/(?:[^0-9]*)/g, ''));
-      return normB - normA;
+      return normA - normB;
     });
-    const specsTime = course.specs.specs.time;
-    const time: Course['specs']['specs']['time'] =
+    const specsTime = course?.specs?.specs.time;
+    const time: Course['specs']['specs']['time'] | undefined =
       typeof (specsTime as any) === 'string'
         ? { time: specsTime as unknown as string, unit: 'days' }
         : specsTime;
-    const specsElearningTime = course.specs.specs.elearningTime;
-    const elearningTime: Course['specs']['specs']['time'] =
+    const specsElearningTime = course?.specs?.specs.elearningTime;
+    const elearningTime: Course['specs']['specs']['time'] | undefined =
       typeof (specsElearningTime as any) === 'string'
         ? { time: specsElearningTime as unknown as string, unit: 'hours' }
         : specsElearningTime;
-    const normedCourse: Course = { ...course, gallery };
-    normedCourse.specs.specs.time = time;
-    normedCourse.specs.specs.elearningTime = elearningTime;
+    const normedCourse: Partial<Course> = gallery ? { ...course, gallery } : course;
+    if (normedCourse?.specs?.specs.time && time)
+      normedCourse.specs.specs.time = time;
+    if (normedCourse?.specs?.specs.elearningTime && elearningTime)
+      normedCourse.specs.specs.elearningTime = elearningTime;
     return normedCourse;
   }
 
