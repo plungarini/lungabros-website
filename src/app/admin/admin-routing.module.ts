@@ -15,14 +15,17 @@ const routes: Routes = [
     children: [
       {
         path: 'todo',
+        data: { preload: true },
         loadChildren: () => import('./pages/todo/todo.module').then(m => m.TodoModule),
       },
       {
         path: 'courses',
+        data: { preload: true },
         loadChildren: () => import('./pages/courses/courses.module').then(m => m.CoursesModule),
       },
       {
         path: 'cv',
+        data: { preload: true },
         loadChildren: () => import('./pages/curriculum/curriculum.module').then(m => m.CurriculumModule),
       },
     ],
