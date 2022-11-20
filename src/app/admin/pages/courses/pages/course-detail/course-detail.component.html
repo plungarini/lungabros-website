@@ -1,3 +1,9 @@
+<app-form-error-modal
+  [(show)]="showErrorsModal"
+  [invalidInputs]="invalidInputs"
+  (saveDraft)="submitForm('draft')"
+></app-form-error-modal>
+
 <div class="flex flex-col gap-2 md:flex-row md:items-end md:gap-4">
   <h3 *ngIf="!!course" class="mb-0 mt-0">Modifica il corso</h3>
   <h3 *ngIf="!course" class="mb-0 mt-0">Inserisci un nuovo corso</h3>
@@ -175,12 +181,13 @@
             >
               <option value="hours">Ore</option>
               <option value="days">Giorni</option>
+              <option value="minutes">Minuti</option>
             </select>
           </div>
         </div>
 
         <div formGroupName="elearningTime" class="w-full">
-          <label for="elearningTime">Tempo totale del corso</label>
+          <label for="elearningTime">Tempo dell'eLearning</label>
           <div class="flex w-full flex-row gap-2">
             <input
               formControlName="time"
@@ -200,6 +207,7 @@
             >
               <option value="hours">Ore</option>
               <option value="days">Giorni</option>
+              <option value="minutes">Minuti</option>
             </select>
           </div>
         </div>
@@ -415,7 +423,11 @@
     </div>
   </div>
 
-  <h3 class="mt-6 mb-6">Corsi correlati</h3>
+  <h3 class="mt-6">Corsi Correlati</h3>
+  <p class="mt-0 mb-4 text-base"
+    >"Corsi parziali" serve per corsi come Open e Advance che hanno dei corsi
+    parziali (tipo Scuba Diver o Adventure Diver)</p
+  >
   <div class="flex w-full flex-1 flex-col gap-4">
     <ng-template #courseSuggestionBadge let-item="item" let-path="path">
       <span
@@ -448,10 +460,7 @@
       <p class="mt-0 text-sm text-zinc-600">Nessun corso selezionato</p>
     </ng-template>
     <ng-template #suggestionSearch let-path="path">
-      <div
-        class="mb-4"
-        #comboboxContainer
-      >
+      <div class="mb-4" #comboboxContainer>
         <div class="group relative mt-1">
           <input
             #search
@@ -563,7 +572,7 @@
 
     <div class="flex flex-col items-start gap-4 md:flex-row">
       <div class="w-full flex-1">
-        <label for="combobox-advice">Corsi correlati</label>
+        <label for="combobox-advice">Corsi parziali</label>
         <ng-container
           [ngTemplateOutlet]="suggestionSearch"
           [ngTemplateOutletContext]="{ path: 'advice' }"

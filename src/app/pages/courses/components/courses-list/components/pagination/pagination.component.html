@@ -19,7 +19,6 @@
         class="inline-flex cursor-pointer items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-zinc-500 hover:border-zinc-500 hover:text-zinc-200 transition-all duration-300"
       >{{ page }}</a>
     </ng-container>
-    <a class="inline-flex items-center px-4 pt-4 text-sm font-medium text-zinc-500">...</a>
   </div>
   <div *ngIf="!isLastPage" class="-mt-px w-0 cursor-pointer flex flex-1 justify-end">
     <a (click)="onChangePage(currentPage + 1)" class="inline-flex group items-center pt-4 pl-1 text-sm font-medium text-zinc-500 hover:text-zinc-200 transition-all duration-300 relative z-10">

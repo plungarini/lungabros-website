@@ -60,6 +60,12 @@ export class CurriculumComponent implements OnInit, OnDestroy {
         }),
       ).subscribe(dbCurriculum => {
         this.curriculum = dbCurriculum;
+        this.curriculum?.stories.push({
+          title: 'La storia continua...',
+          desc: 'Questo è solo l\'inizio di ciò che vogliamo creare e speriamo davvero che tu ne possa fare parte assieme a noi :)',
+          isWorkingExperience: false,
+          time: Timestamp.fromDate(new Date()),
+        })
         this.cdRef.detectChanges();
       });
   }

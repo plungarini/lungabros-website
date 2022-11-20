@@ -7,12 +7,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 import { DragNdropDirective } from './pipes/drag-ndrop.directive';
 import { ImgixAngularModule } from '@imgix/angular';
+import { FormErrorModalComponent } from './components/form-error-modal/form-error-modal.component';
 
 
 @NgModule({
   declarations: [
     CourseDetailComponent,
-    DragNdropDirective
+    DragNdropDirective,
+    FormErrorModalComponent
   ],
   imports: [
     CommonModule,

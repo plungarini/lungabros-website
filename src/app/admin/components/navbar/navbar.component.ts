@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, Observable, fromEvent, startWith, map } from 'rxjs';
 
 @Component({
@@ -13,7 +13,7 @@ import { Subscription, Observable, fromEvent, startWith, map } from 'rxjs';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   @Input() tasksCount: number = 0;
 
@@ -34,6 +34,10 @@ export class NavbarComponent implements OnInit {
       this.isMobile = matches;
       this.cdRef.detectChanges();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.mediaSub?.unsubscribe();
   }
 
   media(query: string): Observable<boolean> {

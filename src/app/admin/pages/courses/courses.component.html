@@ -27,7 +27,7 @@
 </div>
 
 <div *ngIf="draftCourses.length" class="mt-4">
-  <p class="text-sm text-zinc-500 font-bold">Bozze:</p>
+  <p class="text-sm text-zinc-500 font-bold">Bozze ({{draftCourses.length}})</p>
   <div class="mt-2 flex flex-col divide-y-2 divide-zinc-800">
     <ng-container *ngFor="let course of draftCourses; trackBy: trackBy">
       <a (click)="editCourse(course.id)" class="max-w-full flex flex-row items-center justify-between py-4 px-4 group hover:bg-zinc-800 cursor-pointer transition-all duration-300">
@@ -46,7 +46,7 @@
   </div>
 </div>
 <div class="mt-4">
-  <p *ngIf="draftCourses.length && publicCourses.length" class="text-sm text-zinc-500 font-bold">Corsi pubblici:</p>
+  <p *ngIf="draftCourses.length && publicCourses.length" class="text-sm text-zinc-500 font-bold">Corsi pubblici ({{publicCourses.length}})</p>
   <div class="mt-2 flex flex-col divide-y-2 divide-zinc-800">
     <ng-container *ngFor="let course of publicCourses; trackBy: trackBy">
       <a (click)="editCourse(course.id)" class="max-w-full flex flex-row items-center justify-between py-4 px-4 group hover:bg-zinc-800 cursor-pointer transition-all duration-300">

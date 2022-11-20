@@ -1,43 +1,49 @@
-import { Timestamp } from "@angular/fire/firestore";
+import { Timestamp } from '@angular/fire/firestore';
 
-export interface Story {
+export type Story = {
   title: string;
   desc: string;
   time?: Timestamp;
   isWorkingExperience: boolean;
 }
 
-interface Language {
+export type CvLanguage = {
   flag: 'it' | 'en' | 'fr' | 'de';
   name: string;
   level: number;
 }
 
-export interface Specs {
+export type Specs = {
   passions: string[];
-  lang: Language[];
+  lang: CvLanguage[];
   memberId: number;
-  socials: Social[];
+  socials: CvSocial[];
 }
 
-export interface Certification {
+export type Certification = {
   id: string;
   title: string;
   priority?: number;
   isPro: boolean;
+  hide?: boolean;
 }
 
-interface Contacts {
+type Contacts = {
   email: string;
   phone: string;
 }
 
-interface Social {
+export type CvSocial = {
   id: 'ig' | 'fb' | 'in' | 'tw';
   username: string;
 }
 
-export interface Curriculum {
+type DraftDetails = {
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
+}
+
+export type Curriculum = {
   name: string;
   birthday: Timestamp;
   desc: string;
@@ -45,4 +51,23 @@ export interface Curriculum {
   specs: Specs;
   certs: Certification[];
   contacts: Contacts;
+  draft?: DraftDetails;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
+}
+
+type FormSpecs = {
+  passions: string[];
+  memberId: number;
+}
+
+export type FormCurriculum = {
+  name: string;
+  birthday: string;
+  desc: string;
+  contacts: Contacts;
+  specs: FormSpecs;
+  draft?: DraftDetails;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }

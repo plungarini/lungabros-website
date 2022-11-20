@@ -21,7 +21,7 @@ export class AdminGuard implements CanActivate {
 				map(user => {
 					if (user?.roles?.admin) return true;
 
-					this.router.navigateByUrl('');
+					this.router.navigateByUrl('/login');
 					return false;
 				}),
 			);

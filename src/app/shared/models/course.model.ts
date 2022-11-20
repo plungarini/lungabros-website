@@ -2,7 +2,7 @@ import { Timestamp } from "@angular/fire/firestore";
 
 interface CourseTime {
   time: string;
-  unit: 'hours' | 'days';
+  unit: 'hours' | 'days' | 'minutes';
 }
 
 type DraftDetails = {

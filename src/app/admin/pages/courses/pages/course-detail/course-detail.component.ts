@@ -16,7 +16,6 @@ import { FileHandle } from './pipes/drag-ndrop.directive';
 import { isEqual } from 'lodash';
 import { CourseFormService } from './services/course-form.service';
 
-
 @Component({
   selector: 'app-course-detail',
   templateUrl: './course-detail.component.html',
@@ -44,56 +43,64 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   ];
 
   dbConnection: Subscription | undefined;
+  invalidInputs: string[] = [];
+  showErrorsModal = false;
 
   fileDropper = new FormControl<FileHandle[]>([], { nonNullable: true });
 
-  form = new FormGroup({
-    id: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
-    hide: new FormControl<boolean>(true),
-    title: new FormControl<string>('PADI® NOME_DEL_CORSO', [
-      Validators.required,
-    ]),
-    bgImg: new FormControl<string>('', [Validators.required]),
-    shortDesc: new FormControl<string>('', [Validators.required]),
-    category: new FormControl<string[]>([], { nonNullable: true }),
-    desc: new FormControl<string>('', [Validators.required]),
-    howToCert: new FormControl<string>('', [Validators.required]),
-    courseAdvice: new FormControl<string[]>([], { nonNullable: true }),
-    suggestedCourse: new FormControl<string[]>([], { nonNullable: true }),
-    gallery: new FormControl<string[]>([], [Validators.required]),
-    howToLearn: new FormGroup({
-      eLearning: new FormControl<string>('', [Validators.required]),
-      inPerson: new FormControl<string>('', [Validators.required]),
-    }),
-    specs: new FormGroup({
-      foryou: new FormArray<FormControl<string>>(this.dummyFormStrArr(3), {
-        updateOn: 'blur',
+  form = new FormGroup(
+    {
+      id: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required],
       }),
-      learnto: new FormArray<FormControl<string>>(this.dummyFormStrArr(3), {
-        updateOn: 'blur',
+      hide: new FormControl<boolean>(true),
+      title: new FormControl<string>('PADI® NOME_DEL_CORSO', [
+        Validators.required,
+      ]),
+      bgImg: new FormControl<string>('', [Validators.required]),
+      shortDesc: new FormControl<string>('', [Validators.required]),
+      category: new FormControl<string[]>([], { nonNullable: true }),
+      desc: new FormControl<string>('', [Validators.required]),
+      howToCert: new FormControl<string>('', [Validators.required]),
+      courseAdvice: new FormControl<string[]>([], { nonNullable: true }),
+      suggestedCourse: new FormControl<string[]>([], { nonNullable: true }),
+      gallery: new FormControl<string[]>([], [Validators.required]),
+      howToLearn: new FormGroup({
+        eLearning: new FormControl<string>('', [Validators.required]),
+        inPerson: new FormControl<string>('', [Validators.required]),
       }),
       specs: new FormGroup({
-        time: new FormGroup({
-          time: new FormControl<string>('', [Validators.required]),
-          unit: new FormControl<'hours' | 'days'>('hours', [
-            Validators.required,
-          ]),
+        foryou: new FormArray<FormControl<string>>([], {
+          updateOn: 'blur',
         }),
-        elearningTime: new FormGroup({
-          time: new FormControl<string>('', [Validators.required]),
-          unit: new FormControl<'hours' | 'days'>('hours', [
-            Validators.required,
-          ]),
+        learnto: new FormArray<FormControl<string>>([], {
+          updateOn: 'blur',
         }),
-        dives: new FormControl<number | undefined>(undefined),
-        depth: new FormControl<number | undefined>(undefined),
-        age: new FormControl<number | undefined>(undefined),
-        pre: new FormControl<string>('', [Validators.required]),
+        specs: new FormGroup({
+          time: new FormGroup({
+            time: new FormControl<string>('', [Validators.required]),
+            unit: new FormControl<'hours' | 'days' | 'minutes'>('days', [
+              Validators.required,
+            ]),
+          }),
+          elearningTime: new FormGroup({
+            time: new FormControl<string>('', [Validators.required]),
+            unit: new FormControl<'hours' | 'days' | 'minutes'>('hours', [
+              Validators.required,
+            ]),
+          }),
+          dives: new FormControl<number | undefined>(undefined),
+          depth: new FormControl<number | undefined>(undefined),
+          age: new FormControl<number | undefined>(undefined),
+          pre: new FormControl<string>('', [Validators.required]),
+        }),
       }),
-    }),
-    createdAt: new FormControl<Timestamp | undefined>(undefined),
-    updatedAt: new FormControl<Timestamp | undefined>(undefined),
-  }, { updateOn: 'blur' });
+      createdAt: new FormControl<Timestamp | undefined>(undefined),
+      updatedAt: new FormControl<Timestamp | undefined>(undefined),
+    },
+    { updateOn: 'blur' }
+  );
 
   constructor(
     private route: ActivatedRoute,
@@ -115,7 +122,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       .subscribe((courses) => {
         this.allCourses = courses.map((c) => ({ id: c.id, title: c.title }));
         this.filteredCourses = this.allCourses;
-        this.form.markAllAsTouched();
+        this.setArrays();
         this.cdRef.detectChanges();
       });
   }
@@ -196,7 +203,9 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
   }
 
   get gallery(): string[] {
-    return (this.form.get('gallery') as FormControl<string[]>)?.value?.filter(img => img.includes('/'));
+    return (this.form.get('gallery') as FormControl<string[]>)?.value?.filter(
+      (img) => img.includes('/')
+    );
   }
 
   get isEqualCourse(): boolean {
@@ -277,8 +286,9 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     if (this.isSuggestedCourseSelected(item, path))
       return this.removeSuggestedCourse(item, path);
 
-    const arr =
-      (this.form.get(path === 'suggest' ? 'suggestedCourse' : 'courseAdvice')) as FormControl<string[]>;
+    const arr = this.form.get(
+      path === 'suggest' ? 'suggestedCourse' : 'courseAdvice'
+    ) as FormControl<string[]>;
     if (!arr) return;
     arr.patchValue([item, ...arr.value]);
     this.cdRef.detectChanges();
@@ -301,8 +311,7 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
 
   selectCategory(cat: string): void {
     if (this.isCatSelected(cat)) return;
-    const currentCats =
-      (this.form.get('category') as FormControl<string[]>);
+    const currentCats = this.form.get('category') as FormControl<string[]>;
     if (!currentCats) return;
     currentCats.patchValue([cat, ...currentCats.value]);
     this.cdRef.detectChanges();
@@ -349,18 +358,62 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
     if (
       (this.isEqualCourse && status === 'draft' && this.form.value.hide) ||
       (this.isEqualCourse && status === 'publish' && !this.form.value.hide)
-  ) return;
-    console.log('Saving form...');
+    )
+      return;
 
     const findInvalidControls = () => {
-      const invalid = [];
+      const invalid = new Set<string>([]);
       const controls = this.form.controls;
       for (const name in controls) {
+        if (name === 'specs' || name === 'howToLearn') continue;
         if ((controls as any)[name].invalid) {
-          invalid.push(name);
+          invalid.add(name);
         }
       }
-      return invalid;
+
+      const howToLearn = this.form.controls.howToLearn.controls;
+      const specs = this.form.controls.specs.controls;
+      const specsSpecs = this.form.controls.specs.controls.specs.controls;
+      const specsTime =
+        this.form.controls.specs.controls.specs.controls.time.controls;
+      const specsElearningTime =
+        this.form.controls.specs.controls.specs.controls.elearningTime.controls;
+
+      for (const name in howToLearn) {
+        if ((howToLearn as any)[name].invalid) {
+          invalid.add(`howToLearn.${name}`);
+        }
+      }
+      for (const name in specs) {
+        if ((specs as any)[name].invalid) {
+          invalid.add(`specs.${name}`);
+        }
+      }
+      for (const name in specsSpecs) {
+        if ((specsSpecs as any)[name].invalid) {
+          invalid.add(`specs.specs.${name}`);
+        }
+      }
+      for (const name in specsTime) {
+        if ((specsTime as any)[name].invalid) {
+          invalid.add(`specs.specs.time.${name}`);
+        }
+      }
+      for (const name in specsElearningTime) {
+        if ((specsElearningTime as any)[name].invalid) {
+          invalid.add(`specs.specs.elearningTime.${name}`);
+        }
+      }
+
+      const checkArrays = (controls: string[]) => {
+        controls.forEach((c) => {
+          const arr = (this.form.get(c)?.value as string[]) || [];
+          if (arr.length <= 0) invalid.add(c);
+        });
+      };
+      checkArrays(['category', 'suggestedCourse', 'gallery']);
+
+      return [...invalid];
     };
     const invalid = findInvalidControls();
     if (
@@ -383,6 +436,43 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       );
     } else {
       console.warn('Devi cambiare stato in Bozza o aggiornare campi', invalid);
+      this.invalidInputs = [...invalid];
+      this.showErrorsModal = true;
+    }
+  }
+
+  private setArrays(): void {
+    this.course?.specs?.foryou?.forEach((item) => {
+      this.form.controls.specs.controls.foryou.push(
+        new FormControl(item, {
+          nonNullable: true,
+          validators: [Validators.required],
+        })
+      );
+    });
+    if ((this.course?.specs?.foryou?.length || 0) <= 0) {
+      this.form.controls.specs.controls.foryou.push(
+        new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required],
+        })
+      );
+    }
+    this.course?.specs?.learnto?.forEach((item) => {
+      this.form.controls.specs.controls.learnto.push(
+        new FormControl(item, {
+          nonNullable: true,
+          validators: [Validators.required],
+        })
+      );
+    });
+    if ((this.course?.specs?.learnto?.length || 0) <= 0) {
+      this.form.controls.specs.controls.learnto.push(
+        new FormControl('', {
+          nonNullable: true,
+          validators: [Validators.required],
+        })
+      );
     }
   }
 
@@ -402,24 +492,31 @@ export class CourseDetailComponent implements OnInit, OnDestroy {
       typeof (specsElearningTime as any) === 'string'
         ? { time: specsElearningTime as unknown as string, unit: 'hours' }
         : specsElearningTime;
-    const normedCourse: Partial<Course> = gallery ? { ...course, gallery } : course;
+    const normedCourse: Partial<Course> = gallery
+      ? { ...course, gallery }
+      : course;
     if (normedCourse?.specs?.specs.time && time)
       normedCourse.specs.specs.time = time;
     if (normedCourse?.specs?.specs.elearningTime && elearningTime)
       normedCourse.specs.specs.elearningTime = elearningTime;
+    normedCourse.desc =
+      normedCourse.desc?.replace(/<br>/g, '\n').replace(/<br\/>/g, '\n') || '';
+    normedCourse.shortDesc =
+      normedCourse.shortDesc?.replace(/<br>/g, '\n').replace(/<br\/>/g, '\n') ||
+      '';
+    normedCourse.howToCert =
+      normedCourse.howToCert?.replace(/<br>/g, '\n').replace(/<br\/>/g, '\n') ||
+      '';
+    if (normedCourse.howToLearn)
+      normedCourse.howToLearn.eLearning =
+        normedCourse.howToLearn?.eLearning
+          ?.replace(/<br>/g, '\n')
+          .replace(/<br\/>/g, '\n') || '';
+    if (normedCourse.howToLearn)
+      normedCourse.howToLearn.inPerson =
+        normedCourse.howToLearn?.inPerson
+          ?.replace(/<br>/g, '\n')
+          .replace(/<br\/>/g, '\n') || '';
     return normedCourse;
-  }
-
-  private dummyFormStrArr(num: number): FormControl<string>[] {
-    const res: FormControl<string>[] = [];
-    for (let i = 0; i < num; i++) {
-      const control = new FormControl<string>('', {
-        nonNullable: true,
-        updateOn: 'blur',
-        validators: [Validators.required],
-      });
-      res.push(control);
-    }
-    return res;
   }
 }

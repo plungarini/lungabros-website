@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CurriculumRoutingModule } from './curriculum-routing.module';
 import { CurriculumComponent } from './curriculum.component';
+import { ImgixAngularModule } from '@imgix/angular';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { CurriculumComponent } from './curriculum.component';
   ],
   imports: [
     CommonModule,
-    CurriculumRoutingModule
+    CurriculumRoutingModule,
+    ImgixAngularModule
   ]
 })
 export class CurriculumModule { }
