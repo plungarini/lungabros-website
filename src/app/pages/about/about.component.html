@@ -8,22 +8,24 @@
   
 </div>
 <div class="mx-4 sm:mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 xl:px-12 mt-8 rounded-xl z-40 relative shadow-2xl">
-  <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-xl mx-auto gap-8 mb-8">
-    <div routerLink="pietro-lungarini" class="col-span-1 max-w-max group translate-x-4 md:translate-x-0">
-      <div class="relative cursor-pointer mx-auto w-max">
-        <div class="bg-indigo-500 group-hover:bg-indigo-400 w-full h-full scale-[0.8] origin-bottom-left absolute rounded-md z-10 bottom-0 ring-4 ring-indigo-500 ring-offset-2 ring-offset-zinc-900 shadow-2xl transition-all duration-300"></div>
-        <img loading="eager" ixImg path="gallery/pietro_overlay.png" [imgixParams]="{ ar: '1:1', fit: 'crop', crop: 'top' }" class="max-w-xs z-20 relative rounded-b-md" alt="">
+  <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-3xl mx-auto gap-8 mb-8">
+    <div routerLink="pietro-lungarini" class="col-span-1 group scale-[0.8]">
+      <div class="relative cursor-pointer mx-auto w-full">
+        <div class="bg-indigo-500 group-hover:bg-indigo-400 w-full aspect-square mx-auto rounded-md z-10 bottom-0 ring-4 ring-indigo-500 ring-offset-2 ring-offset-zinc-900 shadow-2xl transition-all duration-300"></div>
+        <img loading="eager" ixImg path="gallery/pietro_overlay.png" [imgixParams]="{ ar: '1:1', fit: 'crop', crop: 'top' }" class="absolute inset-0 scale-[1.15] origin-bottom-left max-w-full z-20 rounded-b-md" alt="">
       </div>
+      <p class="text-base text-center text-zinc-200 font-semibold mt-4">Pietro Lungarini</p>
     </div>
-    <div routerLink="samuele-lungarini" class="col-span-1 max-w-max group translate-x-4 md:translate-x-0">
-      <div class="relative cursor-pointer hidden md:block mx-auto w-max">
-        <div class="bg-indigo-500 group-hover:bg-indigo-400 w-full h-full scale-[0.8] origin-bottom-right absolute rounded-md z-10 bottom-0 ring-4 ring-indigo-500 ring-offset-2 ring-offset-zinc-900 shadow-2xl transition-all duration-300"></div>
-        <img loading="eager" ixImg path="gallery/samuele_overlay.png" [imgixParams]="{ ar: '1:1', fit: 'crop', crop: 'top', flip: 'h' }" class="max-w-xs z-20 relative rounded-b-md" alt="">
+    <div routerLink="samuele-lungarini" class="col-span-1 group scale-[0.8]">
+      <div class="relative cursor-pointer hidden md:block mx-auto w-full">
+        <div class="bg-indigo-500 group-hover:bg-indigo-400 w-full aspect-square mx-auto rounded-md z-10 bottom-0 ring-4 ring-indigo-500 ring-offset-2 ring-offset-zinc-900 shadow-2xl transition-all duration-300"></div>
+        <img loading="eager" ixImg path="gallery/samuele_overlay.png" [imgixParams]="{ ar: '1:1', fit: 'crop', crop: 'top', flip: 'h' }" class="absolute inset-0 scale-[1.15] origin-bottom-right max-w-full z-20 rounded-b-md" alt="">
       </div>
-      <div class="relative cursor-pointer block md:hidden mx-auto w-max" style="transform: scaleX(-1);">
-        <div class="bg-indigo-500 group-hover:bg-indigo-400 w-full h-full scale-[0.8] origin-bottom-right absolute rounded-md z-10 bottom-0 ring-4 ring-indigo-500 ring-offset-2 ring-offset-zinc-900 shadow-2xl transition-all duration-300"></div>
-        <img loading="eager" ixImg path="gallery/samuele_overlay.png" [imgixParams]="{ ar: '1:1', fit: 'crop', crop: 'top', flip: 'h' }" class="max-w-xs z-20 relative rounded-b-md" alt="">
+      <div class="relative cursor-pointer block md:hidden mx-auto w-full" style="transform: scaleX(-1);">
+        <div class="bg-indigo-500 group-hover:bg-indigo-400 w-full aspect-square mx-auto rounded-md z-10 bottom-0 ring-4 ring-indigo-500 ring-offset-2 ring-offset-zinc-900 shadow-2xl transition-all duration-300"></div>
+        <img loading="eager" ixImg path="gallery/samuele_overlay.png" [imgixParams]="{ ar: '1:1', fit: 'crop', crop: 'top', flip: 'h' }" class="absolute inset-0 scale-[1.15] origin-bottom-right max-w-full z-20 rounded-b-md" alt="">
       </div>
+      <p class="text-base text-center text-zinc-200 font-semibold mt-4">Samuele Lungarini</p>
     </div>
   </div>
   <p class="text-center font-semibold text-zinc-100 underline decoration-from-font decoration-wavy decoration-indigo-400">Clicca su uno di noi due per vedere la nostra storia!</p>

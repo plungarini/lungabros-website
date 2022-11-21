@@ -30,7 +30,11 @@ export class AppComponent implements OnInit, OnDestroy {
       if (e instanceof NavigationStart) {
         if (e.url === '/') {
           this.titleService.setTitle(`LUNGABROS`);
-        } if (e.url.includes('admin') || e.url.includes('login')) {
+        } else if (e.url.includes('about')) {
+          this.titleService.setTitle(`LUNGABROS | About us`);
+        }
+        
+        if (e.url.includes('admin') || e.url.includes('login')) {
           this.isAdminArea = true;
           this.cdRef.detectChanges();
         } else {

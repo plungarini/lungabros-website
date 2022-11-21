@@ -30,6 +30,11 @@ const routes: Routes = [
       import('./pages/home/home.module').then((m) => m.HomeModule),
   },
   {
+    path: 'articles',
+    loadChildren: () =>
+      import('./pages/articles/articles.module').then((m) => m.ArticlesModule),
+  },
+  {
     path: 'admin',
     canActivate: [AuthGuard, AdminGuard],
     loadChildren: () =>
@@ -44,6 +49,7 @@ const routes: Routes = [
     redirectTo: 'auth/login',
     pathMatch: 'full',
   },
+
   {
     path: '**',
     redirectTo: '/',
