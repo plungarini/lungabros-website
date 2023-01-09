@@ -14,7 +14,6 @@ import {
 import { doc, getDoc, getFirestore } from '@angular/fire/firestore';
 import { getFunctions, httpsCallable } from '@angular/fire/functions';
 import { Router } from '@angular/router';
-import { take } from 'rxjs';
 import { User as DbUser } from '../models/user.model';
 import { FirebaseErrorHandling } from '../namespaces/error-auth';
 import { UsersService } from './users.service';

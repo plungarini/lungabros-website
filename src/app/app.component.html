@@ -1,13 +1,27 @@
-<div class="relative">
+<div class="relative z-0">
   <app-navbar *ngIf="!isAdminArea"></app-navbar>
 
   <div class="relative pb-16 sm:pb-24">
-
     <main class="relative w-full bg-zinc-900">
       <router-outlet></router-outlet>
     </main>
-
   </div>
 
   <app-footer *ngIf="!isAdminArea"></app-footer>
+</div>
+
+<div
+  [ngClass]="{
+    'pointer-events-none opacity-0': !showLoader,
+    'pointer-events-auto opacity-100': showLoader
+  }"
+  class="z-[100] transition-all delay-100 duration-300"
+>
+  <div class="fixed inset-0 bg-zinc-900">
+    <img
+      src="assets/logo/lungabros_light.svg"
+      class="absolute top-1/2 left-1/2 z-30 w-64 max-w-full -translate-x-1/2 -translate-y-1/2 animate-pulse object-cover px-6"
+      alt=""
+    />
+  </div>
 </div>

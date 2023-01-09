@@ -7,15 +7,20 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
       :host {
         display: block;
       }
-    `
+
+      a {
+        @apply cursor-pointer underline decoration-indigo-400 decoration-wavy;
+
+        &:not(.text-zinc-200) {
+          @apply text-indigo-400;
+        }
+      }
+    `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TorchbearerComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
