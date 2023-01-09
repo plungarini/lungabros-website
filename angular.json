@@ -28,7 +28,9 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": [],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
@@ -97,20 +99,26 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": []
           }
         },
         "deploy": {
           "builder": "@angular/fire:deploy",
           "options": {
+            "ssr": "cloud-run",
             "prerender": true,
-            "ssr": true,
+            "firebaseProject": "lungabros",
+            "firebaseHostingSite": "lungabros",
+            "functionName": "ssr-lungabros",
+            "functionsNodeVersion": "16.18",
+            "region": "europe-west1",
             "browserTarget": "lungabros:build:production",
             "serverTarget": "lungabros:server:production",
             "prerenderTarget": "lungabros:prerender:production",
-            "firebaseProject": "lungabros",
-            "firebaseHostingSite": "lungabros"
+            "outputPath": "dist/lungabros/run"
           }
         },
         "server": {
@@ -156,7 +164,9 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": ["/"]
+            "routes": [
+              "/"
+            ]
           },
           "configurations": {
             "production": {
