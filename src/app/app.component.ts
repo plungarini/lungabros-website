@@ -47,7 +47,6 @@ export class AppComponent implements OnInit, OnDestroy {
             asyncLoadCount > 0 && asyncLoadCount--;
           }
           this.showLoader = !!asyncLoadCount;
-          console.log(this.showLoader);
           this.cdRef.detectChanges();
         }
 
@@ -72,12 +71,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
     setTimeout(() => {
       this.firstStart = false;
       this.showLoader = false;
-      console.log('Set to not show');
-    }, 1000);
+    }, 1500);
   }
 
   ngOnDestroy(): void {
